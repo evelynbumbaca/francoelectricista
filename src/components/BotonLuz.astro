@@ -167,8 +167,13 @@ const clases = [
     border: 1px solid var(--ambar);
   }
 
+  /* OJO: el botón principal NO cambia de color de relleno al pasar el mouse.
+     Es a propósito. El hover solía subirlo a ámbar cálido, que es justo el
+     color donde arranca la luz: con el mouse encima, la mitad de la rampa
+     ya estaba gastada antes de tocar el botón y el encendido se veía como
+     un brillo plano. La luz necesita todo el rango para leerse.
+     Acá el aviso de hover es la luz misma, que se enciende al entrar. */
   .boton--primario:hover {
-    background-color: var(--ambar-calido);
     border-color: var(--ambar-calido);
   }
 
@@ -325,15 +330,17 @@ const clases = [
     }
   }
 
-  /* Si la persona pidió menos animaciones: nada se mueve. El botón cambia
-     de estado al instante y sigue siendo perfectamente usable. */
+  /* Si la persona pidió menos animaciones: nada se mueve. Como ahí la luz
+     no existe, el botón vuelve a avisar con un cambio de color instantáneo,
+     que es lo que corresponde: sin luz haría falta alguna señal de hover. */
   @media (prefers-reduced-motion: reduce) {
     .boton::before,
     .boton::after {
       display: none;
     }
 
-    .boton:active {
+    .boton--primario:hover,
+    .boton--primario:active {
       background-color: var(--ambar-calido);
       color: var(--fondo);
       border-color: var(--ambar-calido);

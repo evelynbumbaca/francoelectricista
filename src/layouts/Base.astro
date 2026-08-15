@@ -321,11 +321,24 @@ const datosNegocio = {
       /* --- 1. LA LUZ DE LOS BOTONES ------------------------------------
          La luz nace en el punto exacto donde la persona tocó. Sube en
          120ms y tarda 450ms en apagarse: por eso se siente física y no
-         digital. Solo se animan opacidad y escala. */
+         digital. Solo se animan opacidad y escala.
 
-      function encenderLuz(evento) {
+         Se enciende en dos momentos, y esto importa:
+           · al ENTRAR el cursor al botón (solo con mouse), naciendo en el
+             borde por donde entró
+           · al hacer click o tocar con el dedo
+
+         Lo del cursor no es un capricho. Los botones que llevan luz son
+         los de WhatsApp, y al tocarlos se abre WhatsApp en otra pestaña:
+         si la luz solo se encendiera al hacer click, nadie llegaría a
+         verla nunca en una computadora. */
+
+      function encenderLuz(evento, permitirReinicio) {
         const boton = evento.currentTarget;
         if (menosMovimiento.matches) return;
+        // Si ya se está encendiendo, no lo cortamos por la mitad salvo que
+        // sea un click deliberado, donde reiniciar es la respuesta correcta.
+        if (!permitirReinicio && boton.classList.contains('encendiendo')) return;
 
         const caja = boton.getBoundingClientRect();
         const x = evento.clientX - caja.left;
@@ -359,8 +372,14 @@ const datosNegocio = {
         }
       }
 
+      const hayMouse = window.matchMedia('(hover: hover) and (pointer: fine)');
+
       document.querySelectorAll('[data-luz]').forEach((boton) => {
-        boton.addEventListener('pointerdown', encenderLuz);
+        boton.addEventListener('pointerdown', (e) => encenderLuz(e, true));
+        if (hayMouse.matches) {
+          // pointerenter no burbujea, así que el botón es siempre el destino.
+          boton.addEventListener('pointerenter', (e) => encenderLuz(e, false));
+        }
       });
 
       /* --- 2. MEDICIÓN DE CLICKS EN WHATSAPP ---------------------------
@@ -406,7 +425,6 @@ const datosNegocio = {
       /* --- 4. LA RETÍCULA DE FONDO SIGUE AL CURSOR --------------------- */
 
       const reticula = document.querySelector('[data-reticula]');
-      const hayMouse = window.matchMedia('(hover: hover) and (pointer: fine)');
 
       if (reticula && hayMouse.matches && !menosMovimiento.matches) {
         let posX = 0;
