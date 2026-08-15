@@ -18,8 +18,9 @@
   --texto-tenue: #a2978c; /* 6.6:1 sobre --fondo — cumple AA */
 
   --ambar: #ffb35c; /* 9.7:1 sobre --superficie */
-  --ambar-calido: #ffd9a0; /* el pico del encendido */
-  --ambar-profundo: #d8822a; /* el filamento frío, arranque del encendido */
+  --ambar-calido: #ffd9a0; /* el filamento ya caliente */
+  --ambar-profundo: #d8822a; /* el filamento todavía frío */
+  --luz-blanca: #fff3e0; /* el filamento al rojo blanco: el punto más alto */
 
   /* Versiones con alfa del mismo ámbar, para halos y bordes encendidos.
      No son colores nuevos: es el mismo acento a distinta intensidad. */

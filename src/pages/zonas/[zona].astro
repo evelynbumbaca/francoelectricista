@@ -43,12 +43,19 @@ const detalle =
 
 const whatsapp = linkWhatsapp(`un trabajo en ${zona.nombre}`);
 const otrasZonas = zonas.filter((z) => z.slug !== zona.slug);
+
+// Mientras haya una sola página de zona, conviene que Google no la indexe:
+// compite con la página principal por las mismas búsquedas y repite casi
+// todo su contenido. Se activa poniendo "indexar": true en zonas.json,
+// cuando haya varias zonas publicadas. Ver README.
+const sinIndexar = zona.indexar === false;
 ---
 
 <Base
   titulo={titulo}
   descripcion={descripcion}
   ruta={`/zonas/${zona.slug}/`}
+  sinIndexar={sinIndexar}
 >
   <main id="contenido">
     <section class="zona-hero halo" aria-labelledby="t-zona">

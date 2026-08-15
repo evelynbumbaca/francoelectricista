@@ -23,12 +23,14 @@ Las fotos van copiadas en `src/images/`, con estos nombres exactos:
       muestra más grande.**
 - [ ] **`iluminacion-2.jpg`** — detalle de un artefacto embutido en piso o
       cantero.
-- [ ] **`iluminacion-3.jpg`** — camino, escalera o borde de pileta con luz
-      a ras del piso.
-- [ ] **`iluminacion-4.jpg`** — galería, quincho o frente de la casa.
-      Se muestra ancha, así que conviene una foto bien apaisada.
+- [ ] **`iluminacion-3.jpg`** — camino, escalera, borde de pileta o galería
+      con luz a ras del piso.
 - [ ] **`retrato.jpg`** — Franco. En la obra y con ropa de trabajo funciona
       mejor que una foto de estudio.
+
+> **La galería son tres fotos y no más.** Tres fotos buenas se ven caras;
+> cuatro con una de relleno se ven baratas, y este es el bloque que
+> sostiene todo el sitio.
 
 > **Cómo sacarlas:** las de jardín, de noche y con trípode o apoyando el
 > celular en algo firme. Sin flash. Si el celular tiene "modo noche",
@@ -72,8 +74,9 @@ Se cargan todos en `src/data/sitio.js`.
       Si todavía no hay uno del dominio, conviene crear
       `franco@francoelectricista.com.ar` cuando se compre el dominio: da
       mucha más seriedad que un Gmail suelto.
-- [ ] **Años de oficio** (`{AÑOS}` en el sitio, en la sección "Sobre
-      Franco"). Es un dato que genera confianza. Poné el número, nada más.
+- [ ] **Años de oficio** (`{AÑOS}` en el sitio). Aparece en dos lugares: en
+      la fila de datos de arriba de todo y en la sección "Sobre Franco".
+      Es el dato que más confianza genera. Poné el número, nada más.
 - [ ] **Link del perfil de Google del negocio** (`{URL_PERFIL_GOOGLE}`).
       Ver el punto 4.
 
@@ -116,6 +119,12 @@ importa más que el sitio mismo.** Es gratis.
 - [ ] Dar de alta el sitio en
       [Google Search Console](https://search.google.com/search-console) y
       cargar el sitemap: `francoelectricista.com.ar/sitemap-index.xml`
+- [ ] **Cuando haya dos o tres zonas publicadas**, sacar la línea
+      `"indexar": false` de San Fernando en `src/data/zonas.json`.
+      Hoy esa página está oculta para Google a propósito: siendo la única,
+      compite con la página principal por las mismas búsquedas en lugar de
+      sumar. Con varias zonas cargadas, cada una apunta a una búsqueda
+      distinta y conviene activarlas todas.
 
 ---
 

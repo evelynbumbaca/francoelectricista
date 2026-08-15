@@ -6,13 +6,15 @@ import { buscarFoto } from '../data/fotos.js';
 
 const whatsappIluminacion = linkWhatsapp('iluminación de jardín');
 
-// Las cuatro fotos de la galería. Todas de noche: es cuando la iluminación
-// de jardín se ve. Se cargan solas al copiarlas en src/images/.
+// Tres fotos, no más. Todas de noche: es cuando la iluminación de jardín
+// se ve. Son tres a propósito: tres fotos buenas se ven caras, cuatro con
+// una de relleno se ven baratas, y este es el bloque que sostiene el sitio.
+// Se cargan solas al copiarlas en src/images/.
 const fotos = [
   {
     archivo: 'iluminacion-1.jpg',
     etiqueta: '{FOTOS_ILUMINACION — 1}',
-    nota: 'La principal: jardín completo de noche, con los árboles iluminados desde abajo.',
+    nota: 'La principal, y la que se ve más grande: jardín completo de noche, con los árboles iluminados desde abajo.',
     alt: 'Jardín iluminado de noche con luz cálida sobre los árboles.',
     grande: true,
   },
@@ -26,15 +28,8 @@ const fotos = [
   {
     archivo: 'iluminacion-3.jpg',
     etiqueta: '{FOTOS_ILUMINACION — 3}',
-    nota: 'Camino, escalera o borde de pileta con luz a ras del piso.',
+    nota: 'Camino, escalera, borde de pileta o galería con luz a ras del piso.',
     alt: 'Camino de jardín iluminado a ras del piso.',
-    grande: false,
-  },
-  {
-    archivo: 'iluminacion-4.jpg',
-    etiqueta: '{FOTOS_ILUMINACION — 4}',
-    nota: 'Galería, quincho o frente de la casa con luz cálida.',
-    alt: 'Galería de una casa iluminada de noche con luz cálida.',
     grande: false,
   },
 ].map((foto) => ({ ...foto, imagen: buscarFoto(foto.archivo) }));
@@ -43,9 +38,7 @@ const fotos = [
 <section class="iluminacion halo" id="iluminacion" aria-labelledby="t-iluminacion">
   <div class="contenedor">
     <div class="iluminacion__encabezado revelar">
-      <p class="rotulo">
-        <span class="rotulo__numero">01</span> Servicio destacado
-      </p>
+      <p class="rotulo">Servicio destacado</p>
       <h2 class="titulo-2" id="t-iluminacion">
         Iluminación de jardín<br />y exteriores
       </h2>
@@ -189,8 +182,9 @@ const fotos = [
   }
 
   /* --- La galería -------------------------------------------------------
-     Mosaico: una foto grande y tres chicas. No es una grilla pareja de
-     cuatro cuadraditos, justamente para no parecer una plantilla. */
+     Mosaico: una foto grande a la izquierda y dos apiladas a la derecha.
+     No es una grilla pareja de cuadraditos, justamente para no parecer
+     una plantilla. */
 
   .galeria {
     display: grid;
@@ -216,17 +210,12 @@ const fotos = [
       grid-template-columns: repeat(3, 1fr);
     }
 
-    /* La grande ocupa dos columnas y dos filas: es la que manda. */
+    /* La grande ocupa dos columnas y las dos filas: es la que manda.
+       Las otras dos quedan apiladas en la tercera columna, sin huecos. */
     .galeria__item--grande {
       grid-column: span 2;
       grid-row: span 2;
       aspect-ratio: auto;
-    }
-
-    /* La última cruza el ancho completo, como una foto apaisada de cierre. */
-    .galeria__item:last-child {
-      grid-column: 1 / -1;
-      aspect-ratio: 16 / 5;
     }
   }
 </style>

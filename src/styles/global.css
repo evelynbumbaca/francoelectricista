@@ -213,10 +213,6 @@ ol {
   flex: none;
 }
 
-.rotulo__numero {
-  color: var(--texto-tenue);
-}
-
 /* --- Titulares ------------------------------------------------------------ */
 
 .titulo-1,

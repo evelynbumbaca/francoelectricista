@@ -9,6 +9,9 @@ const whatsappHero = linkWhatsapp('un presupuesto');
 // Si el archivo src/images/hero.jpg existe, se muestra la foto.
 // Si no, se muestra el cartel de foto pendiente.
 const fotoHero = buscarFoto('hero.jpg');
+
+// Mientras los años no estén cargados, el placeholder se ve en la pantalla.
+const aniosCargados = !String(NEGOCIO.aniosOficio).includes('{');
 ---
 
 <section class="hero halo" aria-labelledby="titulo-principal">
@@ -78,8 +81,18 @@ const fotoHero = buscarFoto('hero.jpg');
   <div class="contenedor">
     <ul class="hero__datos">
       <li class="hero__dato">
-        <span class="utilitaria hero__dato-clave">Matrícula</span>
-        <span class="hero__dato-valor">Electricista matriculado</span>
+        <span class="utilitaria hero__dato-clave">Oficio</span>
+        <span class="hero__dato-valor">
+          {
+            aniosCargados ? (
+              <Fragment>{NEGOCIO.aniosOficio} años en zona norte</Fragment>
+            ) : (
+              <Fragment>
+                <span class="pendiente">{'{AÑOS}'}</span> años en zona norte
+              </Fragment>
+            )
+          }
+        </span>
       </li>
       <li class="hero__dato">
         <span class="utilitaria hero__dato-clave">Trabaja en</span>

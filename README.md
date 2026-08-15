@@ -112,7 +112,6 @@ archivo ahí adentro, con el nombre exacto que corresponde:
 | `iluminacion-1.jpg` | Galería de iluminación de jardín (la más grande)     |
 | `iluminacion-2.jpg` | Galería de iluminación                                |
 | `iluminacion-3.jpg` | Galería de iluminación                                |
-| `iluminacion-4.jpg` | Galería de iluminación (se ve ancha, apaisada)       |
 | `retrato.jpg`       | La foto de Franco, en la sección "Sobre Franco"      |
 
 **No hace falta tocar nada más.** Copiás la foto con ese nombre y el cartel
@@ -123,7 +122,8 @@ Consejos para las fotos:
 - **Subilas grandes**, de al menos 1600 píxeles de ancho. El sitio las
   achica y las optimiza solo.
 - Las de **iluminación tienen que ser de noche**. Es cuando se ve el
-  trabajo.
+  trabajo. **Son tres, y son tres a propósito**: tres fotos buenas se ven
+  caras, cuatro con una de relleno se ven baratas.
 - La de arriba de todo (`hero.jpg`) **no es un retrato**: va una obra
   terminada o un jardín iluminado. El retrato va abajo, en "Sobre Franco".
 - Sirven `.jpg`, `.png` y `.webp`. Si tu archivo es `.png`, cambiale el
@@ -183,6 +183,7 @@ Las zonas están en **`src/data/zonas.json`**. Hoy están así:
     "nombre": "San Fernando",
     "slug": "san-fernando",
     "pagina": true,
+    "indexar": false,
     "titulo": "...",
     "descripcion": "...",
     "entrada": "...",
@@ -202,6 +203,19 @@ Con que esté el `nombre` ya alcanza. Aparece en el sitio y Google la lee.
 Cambiá `"pagina": false` por `"pagina": true`. Con eso solo, el sitio le
 arma una página entera en `francoelectricista.com.ar/zonas/nordelta/`, con
 textos genéricos que ya están escritos.
+
+> **Una cosa importante sobre Google.** San Fernando tiene una línea que
+> dice `"indexar": false`. Eso quiere decir: la página existe y funciona,
+> pero le pedimos a Google que **no** la muestre en las búsquedas.
+>
+> ¿Por qué? Porque hoy es la única página de zona, y compite con la página
+> principal por las mismas búsquedas: las dos hablan de San Fernando y las
+> dos dicen casi lo mismo. Cuando dos páginas de un mismo sitio compiten
+> entre sí, Google no sabe cuál mostrar y termina mostrando peor a las dos.
+>
+> **Cuando tengas por lo menos dos o tres zonas publicadas con textos
+> propios, borrá esa línea** (o cambiala por `"indexar": true`). Ahí sí
+> cada página apunta a una búsqueda distinta y suman en vez de competir.
 
 Si además querés escribirle textos propios (que siempre funciona mejor),
 agregale estas cuatro líneas, copiando cómo está San Fernando:

@@ -3,6 +3,7 @@
     "nombre": "San Fernando",
     "slug": "san-fernando",
     "pagina": true,
+    "indexar": false,
     "titulo": "Electricista matriculado en San Fernando",
     "descripcion": "Electricista matriculado con base en San Fernando: obra nueva, refacciones e iluminación de jardín. Presupuesto por WhatsApp en el día.",
     "entrada": "San Fernando es la base de Franco. Desde acá sale a las obras de toda la zona norte, así que los trabajos en el partido se coordinan sin vueltas y con horarios firmes.",

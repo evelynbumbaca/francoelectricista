@@ -194,15 +194,39 @@ const clases = [
   }
 
   /* --- EL ENCENDIDO ----------------------------------------------------
-     Dos capas de luz, una encima de la otra:
-       · la fría (ámbar profundo) prende primero y se apaga enseguida
-       · la cálida (ámbar claro) toma la posta y se apaga despacio
-     El cruce entre las dos es lo que hace que el color "suba de
-     temperatura", como el filamento de una lamparita.
+     Dos capas de luz, una encima de la otra: la primera prende enseguida
+     y la segunda toma la posta. El cruce entre las dos es lo que hace que
+     el color suba de temperatura, como el filamento de una lamparita.
+
+     REGLA: la luz nunca puede oscurecer la superficie sobre la que está.
+     Un filamento se calienta hacia el blanco, no hacia el marrón. Por eso
+     cada variante de botón arranca su rampa a partir de su propio color
+     de fondo y sube desde ahí:
+
+       · Botón ámbar (el principal): del ámbar cálido al blanco cálido.
+         Arranca ya más claro que el fondo del botón y termina al rojo
+         blanco. Si arrancara en el ámbar profundo, lo primero que haría
+         el botón más importante del sitio sería oscurecerse.
+
+       · Botón sobre fondo oscuro: del ámbar profundo al ámbar. Ahí sí el
+         filamento puede arrancar frío, porque la superficie está apagada.
 
      Se animan únicamente opacidad y escala. Nunca sombras ni desenfoques:
      esos dos matan los cuadros por segundo en los celulares, que es
      donde va a estar la mayoría de las visitas. */
+
+  .boton {
+    /* Rampa por defecto: la del botón ámbar. */
+    --luz-inicio: var(--ambar-calido);
+    --luz-fin: var(--luz-blanca);
+  }
+
+  .boton--secundario,
+  .boton--barra {
+    /* Sobre superficie oscura el filamento puede arrancar frío. */
+    --luz-inicio: var(--ambar-profundo);
+    --luz-fin: var(--ambar);
+  }
 
   .boton::before,
   .boton::after {
@@ -218,24 +242,23 @@ const clases = [
     will-change: opacity, transform;
   }
 
-  /* Capa 1: el filamento todavía frío. Sobre el ámbar del botón se ve como
-     un núcleo más oscuro y más saturado. */
+  /* Capa 1: el arranque de la rampa. */
   .boton::before {
     background: radial-gradient(
       circle 130px at var(--lx, 50%) var(--ly, 50%),
-      var(--ambar-profundo) 0%,
-      rgb(216 130 42 / 0.55) 40%,
+      var(--luz-inicio) 0%,
+      var(--luz-inicio) 18%,
       transparent 72%
     );
   }
 
-  /* Capa 2: el filamento ya caliente. Es más clara que el fondo del botón,
-     así que la transición de una capa a la otra se lee como calor subiendo. */
+  /* Capa 2: el punto más alto de la rampa. Siempre más claro que la capa 1,
+     así el paso de una a otra se lee como calor subiendo. */
   .boton::after {
     background: radial-gradient(
       circle 160px at var(--lx, 50%) var(--ly, 50%),
-      var(--ambar-calido) 0%,
-      rgb(255 217 160 / 0.6) 40%,
+      var(--luz-fin) 0%,
+      var(--luz-fin) 18%,
       transparent 70%
     );
   }

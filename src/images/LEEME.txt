@@ -8,8 +8,8 @@ Copiá los archivos dentro de esta misma carpeta, con estos nombres:
 
   iluminacion-1.jpg  La galería de iluminación de jardín. Todas de noche.
   iluminacion-2.jpg  La 1 es la más grande: que sea la mejor.
-  iluminacion-3.jpg
-  iluminacion-4.jpg  Esta se muestra apaisada y ancha.
+  iluminacion-3.jpg  Son tres y no más: tres fotos buenas se ven caras,
+                     cuatro con una de relleno se ven baratas.
 
   retrato.jpg        La foto de Franco, para la sección "Sobre Franco".
 
