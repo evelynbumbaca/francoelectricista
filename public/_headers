@@ -1,0 +1,25 @@
+# Cabeceras HTTP para Cloudflare Pages.
+#
+# PARA QUÉ SIRVE ESTE ARCHIVO
+#
+# Mientras el dominio propio no esté conectado, el sitio se ve en
+# francoelectricista.pages.dev. Esa versión todavía tiene los carteles de
+# «falta esta foto» y datos sin cargar, así que no queremos que Google la
+# muestre en las búsquedas: si la indexa, lo primero que va a encontrar
+# alguien que busque a Franco es una página a medio terminar.
+#
+# Las reglas de abajo le piden a los buscadores que no indexen NADA de
+# pages.dev. Están atadas a ese dominio, así que el día que conectemos
+# francoelectricista.com.ar dejan de aplicarse solas: no hay que acordarse
+# de borrar nada.
+#
+# El robots.txt queda como está, apuntando al dominio final.
+
+# La dirección principal de pruebas
+https://francoelectricista.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+# Las direcciones que Cloudflare genera para cada versión de prueba
+# (tienen un prefijo distinto cada vez, tipo a1b2c3.francoelectricista.pages.dev)
+https://:vista.francoelectricista.pages.dev/*
+  X-Robots-Tag: noindex, nofollow

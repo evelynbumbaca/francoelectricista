@@ -34,6 +34,12 @@ export const NEGOCIO = {
 
   // TODO: faltan los años de oficio de Franco.
   aniosOficio: '{AÑOS}',
+
+  // TODO: falta confirmar con Franco en cuánto responde. Va debajo de los
+  // botones de arriba de todo. Por ejemplo: 'Respondo el mismo día'.
+  // Si se deja entre comillas vacías (''), la línea no aparece.
+  // No poner acá nada que no se vaya a cumplir siempre.
+  compromisoRespuesta: '{COMPROMISO_RESPUESTA}',
 };
 
 /** Mensaje que aparece ya escrito cuando alguien abre el WhatsApp. */

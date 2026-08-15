@@ -88,6 +88,11 @@ ejemplo, para poner el correo:
 Fijate que quede la coma al final y las comillas a los dos lados. Eso es
 importante: si falta una comilla, el sitio no arranca.
 
+> **La línea `compromisoRespuesta`** es la frase chiquita que aparece debajo
+> de los botones de arriba de todo, del tipo "Respondo el mismo día".
+> Poné ahí solo algo que se pueda cumplir siempre. Si dejás las comillas
+> vacías (`''`), la línea no aparece en el sitio.
+
 > **Cuidado con el teléfono.** Hay dos líneas: `telefono` es el que se ve
 > escrito, y `telefonoLink` es el mismo número pero **sin espacios ni
 > guiones**, que es el que usa el botón de llamar. Si cambiás uno, cambiá
@@ -272,6 +277,19 @@ una vez conectados **se actualizan solos cada vez que subís un cambio**.
 Cuando lo publiques, revisá que el dominio configurado sea el correcto: está
 en el archivo `astro.config.mjs`, en la línea que dice
 `https://francoelectricista.com.ar`.
+
+---
+
+## Un archivo que conviene no borrar
+
+En la carpeta `public/` hay un archivo que se llama `_headers`. Sirve para
+que Google **no** muestre en las búsquedas la versión de pruebas del sitio
+(la dirección que termina en `.pages.dev`), que todavía tiene los carteles
+naranjas de datos faltantes.
+
+Está atado a esa dirección de pruebas, así que cuando conectemos
+`francoelectricista.com.ar` deja de aplicarse solo. No hay que acordarse de
+borrar nada, pero tampoco hay que borrar el archivo.
 
 ---
 

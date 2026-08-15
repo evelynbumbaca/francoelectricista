@@ -75,8 +75,15 @@ Se cargan todos en `src/data/sitio.js`.
       `franco@francoelectricista.com.ar` cuando se compre el dominio: da
       mucha más seriedad que un Gmail suelto.
 - [ ] **Años de oficio** (`{AÑOS}` en el sitio). Aparece en dos lugares: en
-      la fila de datos de arriba de todo y en la sección "Sobre Franco".
+      la fila de datos de arriba de todo y en la sección "Cómo trabajo".
       Es el dato que más confianza genera. Poné el número, nada más.
+- [ ] **En cuánto respondés** (`{COMPROMISO_RESPUESTA}` en el sitio).
+      Va debajo de los botones de arriba de todo. Por ejemplo:
+      "Respondo el mismo día".
+      **Preguntale a Franco y poné solo lo que pueda cumplir siempre**, no lo
+      que le gustaría. Prometer una respuesta rápida y no cumplirla es peor
+      que no prometer nada. Si prefiere no comprometerse, dejá las comillas
+      vacías (`''`) y la línea desaparece del sitio.
 - [ ] **Link del perfil de Google del negocio** (`{URL_PERFIL_GOOGLE}`).
       Ver el punto 4.
 
@@ -119,6 +126,13 @@ importa más que el sitio mismo.** Es gratis.
 - [ ] Dar de alta el sitio en
       [Google Search Console](https://search.google.com/search-console) y
       cargar el sitemap: `francoelectricista.com.ar/sitemap-index.xml`
+- [ ] Después de conectar el dominio, comprobar que la versión de pruebas
+      quedó bloqueada para Google y la definitiva no. En una terminal:
+      `curl -I https://francoelectricista.pages.dev/` tiene que mostrar
+      `x-robots-tag: noindex, nofollow`, y
+      `curl -I https://francoelectricista.com.ar/` **no** tiene que
+      mostrarlo. Eso lo hace el archivo `public/_headers`, que está atado
+      al dominio de pruebas y deja de aplicarse solo.
 - [ ] **Cuando haya dos o tres zonas publicadas**, sacar la línea
       `"indexar": false` de San Fernando en `src/data/zonas.json`.
       Hoy esa página está oculta para Google a propósito: siendo la única,

@@ -1,21 +1,19 @@
 ---
 // Los tres trámites que solo puede firmar un matriculado. Le habla al
 // arquitecto, que ya lo sabe, y le explica al dueño de casa, que no.
+// No van numerados: son tres cosas distintas, no tres pasos en orden.
 const puntos = [
   {
-    numero: '01',
     titulo: 'Certificado de instalación',
     texto:
       'Para habilitar un local hace falta un certificado de la instalación eléctrica firmado por un matriculado. Sin esa firma, el trámite no avanza.',
   },
   {
-    numero: '02',
     titulo: 'Medidor y DCI',
     texto:
-      'El pedido de medidor nuevo y la certificación DCI los presenta un matriculado. Es quien responde por lo que quedó detrás de la pared.',
+      'El pedido de medidor nuevo y la certificación DCI los presenta un matriculado. Soy yo el que responde por lo que quedó detrás de la pared.',
   },
   {
-    numero: '03',
     titulo: 'Planos para el municipio',
     texto:
       'El plano eléctrico que se presenta en el municipio va firmado. Es el mismo plano que después usa el estudio de arquitectura para coordinar la obra.',
@@ -29,23 +27,21 @@ const puntos = [
       <p class="rotulo">Matrícula</p>
       <h2 class="titulo-2" id="t-matriculado">Por qué un matriculado</h2>
       <p class="guia medida matriculado__intro">
-        Un electricista matriculado está habilitado a firmar. Esa firma es la
-        que los trámites aceptan, y es la diferencia concreta con quien no la
-        tiene.
+        Estar matriculado quiere decir que puedo firmar. Esa firma es la que los
+        trámites aceptan, y es la diferencia concreta con quien no la tiene.
       </p>
     </div>
 
-    <ol class="matriculado__puntos revelar revelar--secuencia">
+    <ul class="matriculado__puntos revelar revelar--secuencia">
       {
         puntos.map((punto, i) => (
           <li class="punto" style={`--i:${i}`}>
-            <span class="punto__numero utilitaria">{punto.numero}</span>
             <h3 class="punto__titulo">{punto.titulo}</h3>
             <p class="punto__texto">{punto.texto}</p>
           </li>
         ))
       }
-    </ol>
+    </ul>
 
     <p class="sello revelar">
       <span class="sello__marca utilitaria">Electricista matriculado</span>
@@ -85,10 +81,6 @@ const puntos = [
     align-content: start;
     padding-block-start: var(--e-5);
     border-block-start: 1px solid var(--ambar-a32);
-  }
-
-  .punto__numero {
-    color: var(--ambar);
   }
 
   .punto__titulo {

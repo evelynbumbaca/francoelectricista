@@ -29,17 +29,18 @@ export function getStaticPaths() {
 const { zona } = Astro.props;
 
 // Si la zona todavía no tiene los textos escritos, se usan estos, que son
-// ciertos para cualquiera de las zonas donde Franco trabaja.
+// ciertos para cualquiera de las zonas donde Franco trabaja. Van en
+// primera persona, igual que el resto del sitio: habla Franco.
 const titulo = zona.titulo || `Electricista matriculado en ${zona.nombre}`;
 const descripcion =
   zona.descripcion ||
   `Electricista matriculado en ${zona.nombre}: instalaciones de obra nueva, refacciones e iluminación de jardín. Presupuesto por WhatsApp.`;
 const entrada =
   zona.entrada ||
-  `Franco trabaja en ${zona.nombre} haciendo instalaciones eléctricas de obra nueva, refacciones e iluminación de jardín y exteriores.`;
+  `Trabajo en ${zona.nombre} haciendo instalaciones eléctricas de obra nueva, refacciones e iluminación de jardín y exteriores.`;
 const detalle =
   zona.detalle ||
-  `Las obras nuevas se hacen con planos y en conjunto con el estudio de arquitectura. En casas ya habitadas se hacen refacciones, colocación de artefactos y certificados eléctricos.`;
+  `Las obras nuevas las hago con planos, junto al estudio de arquitectura. En casas ya habitadas hago refacciones, coloco artefactos y firmo certificados eléctricos.`;
 
 const whatsapp = linkWhatsapp(`un trabajo en ${zona.nombre}`);
 const otrasZonas = zonas.filter((z) => z.slug !== zona.slug);
@@ -97,7 +98,7 @@ const sinIndexar = zona.indexar === false;
     <section class="seccion" aria-labelledby="t-otras">
       <div class="contenedor revelar">
         <p class="rotulo">Otras zonas</p>
-        <h2 class="titulo-2" id="t-otras">Dónde más trabaja</h2>
+        <h2 class="titulo-2" id="t-otras">Dónde más trabajo</h2>
         <ul class="otras">
           {
             otrasZonas.map((otra) => (

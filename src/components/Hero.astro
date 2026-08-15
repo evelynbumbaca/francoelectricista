@@ -12,22 +12,24 @@ const fotoHero = buscarFoto('hero.jpg');
 
 // Mientras los años no estén cargados, el placeholder se ve en la pantalla.
 const aniosCargados = !String(NEGOCIO.aniosOficio).includes('{');
+
+// El compromiso de respuesta tiene tres estados: cargado (se muestra),
+// pendiente (se ve el cartel) o vacío (no se muestra la línea).
+const compromiso = String(NEGOCIO.compromisoRespuesta ?? '').trim();
+const mostrarCompromiso = compromiso !== '';
+const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
 ---
 
 <section class="hero halo" aria-labelledby="titulo-principal">
   <div class="contenedor">
     <div class="hero__texto">
       <h1 class="titulo-1 hero__titulo" id="titulo-principal">
-        Electricista matriculado en zona norte: obra nueva, refacciones e <span
-          class="destacado">iluminación de jardín</span
-        >.
+        Electricista matriculado en zona norte
       </h1>
 
       <p class="guia hero__bajada">
-        Franco hace la instalación eléctrica completa de casas en barrios
-        privados de zona norte, en conjunto con estudios de arquitectura y con
-        el plano sobre la mesa. También refacciones, colocación de artefactos e
-        iluminación de exteriores en casas que ya están habitadas.
+        Obra nueva en barrios privados junto a estudios de arquitectura,
+        refacciones e iluminación de jardín. Presupuesto sin cargo.
       </p>
 
       <div class="hero__acciones">
@@ -44,6 +46,21 @@ const aniosCargados = !String(NEGOCIO.aniosOficio).includes('{');
           Ver obras
         </BotonLuz>
       </div>
+
+      {
+        /* Compromiso de respuesta. Si en sitio.js queda vacío, esta línea
+           no se dibuja: mejor no decir nada que prometer algo que no se
+           cumple. Mientras no esté definido, se ve el cartel de pendiente. */
+        mostrarCompromiso && (
+          <p class="hero__compromiso">
+            {compromisoCargado ? (
+              NEGOCIO.compromisoRespuesta
+            ) : (
+              <span class="pendiente">{'{COMPROMISO_RESPUESTA}'}</span>
+            )}
+          </p>
+        )
+      }
     </div>
   </div>
 
@@ -95,7 +112,7 @@ const aniosCargados = !String(NEGOCIO.aniosOficio).includes('{');
         </span>
       </li>
       <li class="hero__dato">
-        <span class="utilitaria hero__dato-clave">Trabaja en</span>
+        <span class="utilitaria hero__dato-clave">Trabajo en</span>
         <span class="hero__dato-valor">
           Nordelta, Benavídez, Pilar, Escobar y San Fernando
         </span>
@@ -133,6 +150,15 @@ const aniosCargados = !String(NEGOCIO.aniosOficio).includes('{');
     display: flex;
     flex-wrap: wrap;
     gap: var(--e-4);
+  }
+
+  .hero__compromiso {
+    margin-block-start: var(--e-4);
+    font-size: var(--t-menor);
+    color: var(--texto-tenue);
+  }
+
+  .hero__texto {
     margin-block-end: var(--e-8);
   }
 
