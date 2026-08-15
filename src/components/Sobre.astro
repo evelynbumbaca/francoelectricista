@@ -1,0 +1,129 @@
+---
+import { Image } from 'astro:assets';
+import { NEGOCIO } from '../data/sitio.js';
+import { buscarFoto } from '../data/fotos.js';
+
+const retrato = buscarFoto('retrato.jpg');
+
+// Mientras el dato no esté cargado, el placeholder se ve en la pantalla.
+const aniosCargados = !String(NEGOCIO.aniosOficio).includes('{');
+---
+
+<section class="seccion" id="sobre" aria-labelledby="t-sobre">
+  <div class="contenedor sobre__grilla">
+    <figure class:list={['sobre__figura', !retrato && 'hueco-foto']}>
+      {
+        retrato ? (
+          <Image
+            class="sobre__imagen"
+            src={retrato}
+            alt="Retrato de Franco, electricista matriculado."
+            widths={[400, 700, 1000]}
+            sizes="(min-width: 52rem) 40vw, 100vw"
+            loading="lazy"
+          />
+        ) : (
+          <>
+            <p class="hueco-foto__etiqueta">{'{FOTO_RETRATO}'}</p>
+            <p class="hueco-foto__nota">
+              Acá sí va el retrato de Franco. En la obra, con ropa de trabajo,
+              mejor que en estudio.
+            </p>
+          </>
+        )
+      }
+    </figure>
+
+    <div class="sobre__texto revelar">
+      <p class="rotulo"><span class="rotulo__numero">06</span> Sobre Franco</p>
+      <h2 class="titulo-2" id="t-sobre">Quién hace el trabajo</h2>
+
+      <p class="guia sobre__parrafo">
+        Franco es electricista matriculado y trabaja en zona norte desde hace{' '}
+        {
+          aniosCargados ? (
+            <strong class="sobre__anios">{NEGOCIO.aniosOficio}</strong>
+          ) : (
+            <span class="pendiente">{'{AÑOS}'}</span>
+          )
+        }{' '}
+        años.
+      </p>
+
+      <p class="sobre__parrafo">
+        La mayor parte de su trabajo es obra nueva en barrios privados, en
+        conjunto con estudios de arquitectura: llega con el plano, coordina con
+        el resto de la obra y deja la instalación documentada para el que venga
+        después.
+      </p>
+
+      <p class="sobre__parrafo">
+        El resto son refacciones e iluminación en casas que ya están habitadas,
+        donde hay que trabajar con los muebles adentro y dejar todo limpio antes
+        de irse.
+      </p>
+
+      <p class="sello">
+        <span class="sello__marca utilitaria">Electricista matriculado</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sobre__grilla {
+    display: grid;
+    gap: var(--e-7);
+    align-items: start;
+  }
+
+  @media (min-width: 52rem) {
+    .sobre__grilla {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+      gap: var(--e-9);
+      align-items: center;
+    }
+  }
+
+  .sobre__figura {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radio-2);
+  }
+
+  .sobre__imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sobre__parrafo {
+    max-width: var(--ancho-texto);
+    margin-block-start: var(--e-5);
+    color: var(--texto-tenue);
+    text-wrap: pretty;
+  }
+
+  .sobre__texto .guia {
+    color: var(--texto);
+  }
+
+  .sobre__anios {
+    color: var(--ambar);
+    font-weight: 600;
+  }
+
+  .sello {
+    margin-block-start: var(--e-6);
+  }
+
+  .sello__marca {
+    display: inline-block;
+    padding: var(--e-3) var(--e-5);
+    color: var(--ambar);
+    border: 1px solid var(--ambar-a32);
+    border-radius: var(--radio);
+    background-color: var(--ambar-a04);
+  }
+</style>

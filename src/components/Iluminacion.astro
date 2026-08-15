@@ -1,0 +1,232 @@
+---
+import { Image } from 'astro:assets';
+import BotonLuz from './BotonLuz.astro';
+import { linkWhatsapp } from '../data/sitio.js';
+import { buscarFoto } from '../data/fotos.js';
+
+const whatsappIluminacion = linkWhatsapp('iluminación de jardín');
+
+// Las cuatro fotos de la galería. Todas de noche: es cuando la iluminación
+// de jardín se ve. Se cargan solas al copiarlas en src/images/.
+const fotos = [
+  {
+    archivo: 'iluminacion-1.jpg',
+    etiqueta: '{FOTOS_ILUMINACION — 1}',
+    nota: 'La principal: jardín completo de noche, con los árboles iluminados desde abajo.',
+    alt: 'Jardín iluminado de noche con luz cálida sobre los árboles.',
+    grande: true,
+  },
+  {
+    archivo: 'iluminacion-2.jpg',
+    etiqueta: '{FOTOS_ILUMINACION — 2}',
+    nota: 'Detalle de un artefacto embutido en el piso o en un cantero.',
+    alt: 'Artefacto de iluminación embutido en el piso de un jardín.',
+    grande: false,
+  },
+  {
+    archivo: 'iluminacion-3.jpg',
+    etiqueta: '{FOTOS_ILUMINACION — 3}',
+    nota: 'Camino, escalera o borde de pileta con luz a ras del piso.',
+    alt: 'Camino de jardín iluminado a ras del piso.',
+    grande: false,
+  },
+  {
+    archivo: 'iluminacion-4.jpg',
+    etiqueta: '{FOTOS_ILUMINACION — 4}',
+    nota: 'Galería, quincho o frente de la casa con luz cálida.',
+    alt: 'Galería de una casa iluminada de noche con luz cálida.',
+    grande: false,
+  },
+].map((foto) => ({ ...foto, imagen: buscarFoto(foto.archivo) }));
+---
+
+<section class="iluminacion halo" id="iluminacion" aria-labelledby="t-iluminacion">
+  <div class="contenedor">
+    <div class="iluminacion__encabezado revelar">
+      <p class="rotulo">
+        <span class="rotulo__numero">01</span> Servicio destacado
+      </p>
+      <h2 class="titulo-2" id="t-iluminacion">
+        Iluminación de jardín<br />y exteriores
+      </h2>
+
+      <div class="iluminacion__texto">
+        <p class="guia">
+          El jardín se usa de noche. Un proyecto de iluminación exterior define
+          qué se ilumina y qué queda en sombra: los árboles desde abajo, el
+          camino a ras del piso, la galería con luz cálida.
+        </p>
+        <p>
+          Franco elige los artefactos para intemperie, calcula la potencia, deja
+          los circuitos separados y el comando adentro de la casa, para que
+          prender el jardín sea una tecla más. Se hace en obra nueva, con el
+          cableado previsto desde el principio, o sobre un jardín que ya está
+          hecho.
+        </p>
+
+        <ul class="iluminacion__lista">
+          <li>Proyecto de iluminación exterior</li>
+          <li>Artefactos aptos para intemperie</li>
+          <li>Circuitos independientes y comando desde adentro</li>
+          <li>Puesta en valor de árboles, caminos y galerías</li>
+        </ul>
+
+        <BotonLuz
+          href={whatsappIluminacion}
+          variante="primario"
+          icono="whatsapp"
+          contacto="whatsapp"
+          origen="iluminacion"
+        >
+          Consultar por iluminación de jardín
+        </BotonLuz>
+      </div>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <div class="galeria revelar revelar--secuencia">
+      {
+        fotos.map((foto, i) => (
+          <figure
+            class:list={[
+              'galeria__item',
+              foto.grande && 'galeria__item--grande',
+              !foto.imagen && 'hueco-foto',
+            ]}
+            style={`--i:${i}`}
+          >
+            {foto.imagen ? (
+              <Image
+                class="galeria__imagen"
+                src={foto.imagen}
+                alt={foto.alt}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 46rem) 50vw, 100vw"
+                loading="lazy"
+              />
+            ) : (
+              <>
+                <p class="hueco-foto__etiqueta">{foto.etiqueta}</p>
+                <p class="hueco-foto__nota">{foto.nota}</p>
+              </>
+            )}
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .iluminacion {
+    position: relative;
+    z-index: var(--z-contenido);
+    padding-block: var(--e-10);
+    background-color: var(--superficie);
+    border-block: 1px solid var(--borde);
+  }
+
+  .iluminacion__encabezado {
+    margin-block-end: var(--e-8);
+  }
+
+  .iluminacion__texto {
+    max-width: var(--ancho-texto);
+    margin-block-start: var(--e-6);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--e-5);
+    color: var(--texto-tenue);
+  }
+
+  .iluminacion__texto .guia {
+    color: var(--texto);
+  }
+
+  /* En pantalla ancha, el título a la izquierda y el texto a la derecha:
+     le da al bloque el peso visual que merece por ser el servicio estrella. */
+  @media (min-width: 60rem) {
+    .iluminacion__encabezado {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: var(--e-9);
+      align-items: start;
+    }
+
+    .iluminacion__encabezado .rotulo {
+      grid-column: 1 / -1;
+    }
+
+    .iluminacion__texto {
+      margin-block-start: 0;
+    }
+  }
+
+  .iluminacion__lista {
+    display: grid;
+    gap: var(--e-3);
+    font-size: var(--t-menor);
+  }
+
+  .iluminacion__lista li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--e-3);
+    color: var(--texto);
+  }
+
+  /* Un punto de luz al costado de cada línea. */
+  .iluminacion__lista li::before {
+    content: '';
+    flex: none;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--ambar);
+    transform: translateY(-2px);
+  }
+
+  /* --- La galería -------------------------------------------------------
+     Mosaico: una foto grande y tres chicas. No es una grilla pareja de
+     cuatro cuadraditos, justamente para no parecer una plantilla. */
+
+  .galeria {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--e-4);
+  }
+
+  .galeria__item {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radio-2);
+  }
+
+  .galeria__imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 46rem) {
+    .galeria {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* La grande ocupa dos columnas y dos filas: es la que manda. */
+    .galeria__item--grande {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: auto;
+    }
+
+    /* La última cruza el ancho completo, como una foto apaisada de cierre. */
+    .galeria__item:last-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 5;
+    }
+  }
+</style>

@@ -1,0 +1,297 @@
+# francoelectricista.com.ar
+
+Este es el sitio web de Franco, electricista matriculado de zona norte.
+
+Este archivo está escrito para que lo pueda usar **cualquiera, sin saber
+programar**. Explica cómo cambiar los textos, cómo sumar una obra y cómo
+sumar una zona nueva. Si algo no está acá, no lo toques y preguntá.
+
+---
+
+## Lo primero: la regla de oro
+
+Todo lo que se edita seguido está en **dos carpetas**:
+
+```
+src/data/      ← los textos y los datos (teléfono, obras, zonas)
+src/images/    ← las fotos
+```
+
+**Si no estás seguro, no toques nada fuera de esas dos carpetas.**
+
+---
+
+## Cómo ver el sitio en tu computadora
+
+Esto hace falta una sola vez, para probar los cambios antes de publicarlos.
+
+1. Instalá **Node.js** desde [nodejs.org](https://nodejs.org) (la versión que
+   dice "LTS"). Se instala como cualquier programa: siguiente, siguiente,
+   listo.
+
+2. Abrí la carpeta del proyecto en una terminal y escribí, una sola vez:
+
+   ```
+   npm install
+   ```
+
+3. Después, cada vez que quieras ver el sitio:
+
+   ```
+   npm run dev
+   ```
+
+   Te va a mostrar una dirección tipo `http://localhost:4321`. Copiala en el
+   navegador y ahí está el sitio. Mientras eso esté abierto, **cada cambio
+   que guardes se ve al instante en la pantalla**.
+
+4. Para cerrarlo, apretá `Ctrl + C` en la terminal.
+
+---
+
+## Los carteles naranjas que dicen que falta algo
+
+Cuando entres al sitio vas a ver **carteles naranjas con texto entre
+llaves**, así: `{FOTO_HERO}`, `{EMAIL}`, `{AÑOS}`.
+
+Eso no es un error. Son **los datos que todavía faltan**, y están a la vista
+a propósito, para que no se olviden. **Cuando cargues el dato de verdad, el
+cartel desaparece solo.** No hay que borrarlo a mano.
+
+La lista completa de lo que falta está en el archivo `CHECKLIST.md`.
+
+---
+
+## Cambiar el teléfono, el correo, el horario
+
+Todo eso está en un solo archivo: **`src/data/sitio.js`**
+
+Ahí vas a ver algo así:
+
+```js
+export const NEGOCIO = {
+  nombre: 'Franco Electricista',
+  telefono: '+54 11 5830-8361',
+  telefonoLink: '+541158308361',
+  correo: '{EMAIL}',
+  ...
+};
+```
+
+Para cambiar algo, reemplazá **solo lo que está entre comillas**. Por
+ejemplo, para poner el correo:
+
+```js
+  correo: 'franco@francoelectricista.com.ar',
+```
+
+Fijate que quede la coma al final y las comillas a los dos lados. Eso es
+importante: si falta una comilla, el sitio no arranca.
+
+> **Cuidado con el teléfono.** Hay dos líneas: `telefono` es el que se ve
+> escrito, y `telefonoLink` es el mismo número pero **sin espacios ni
+> guiones**, que es el que usa el botón de llamar. Si cambiás uno, cambiá
+> el otro.
+
+> **El nombre, el teléfono y la localidad tienen que estar escritos
+> exactamente igual acá, en el perfil de Google y en las redes.** Si en un
+> lado dice "Franco Electricista" y en otro "Electricidad Franco", Google
+> los toma como dos negocios distintos y el sitio aparece peor en las
+> búsquedas.
+
+---
+
+## Cargar las fotos
+
+Todas las fotos van en la carpeta **`src/images/`**. Nada más que copiar el
+archivo ahí adentro, con el nombre exacto que corresponde:
+
+| Nombre del archivo  | Dónde aparece                                        |
+| ------------------- | ---------------------------------------------------- |
+| `hero.jpg`          | La foto grande de arriba de todo                     |
+| `iluminacion-1.jpg` | Galería de iluminación de jardín (la más grande)     |
+| `iluminacion-2.jpg` | Galería de iluminación                                |
+| `iluminacion-3.jpg` | Galería de iluminación                                |
+| `iluminacion-4.jpg` | Galería de iluminación (se ve ancha, apaisada)       |
+| `retrato.jpg`       | La foto de Franco, en la sección "Sobre Franco"      |
+
+**No hace falta tocar nada más.** Copiás la foto con ese nombre y el cartel
+naranja desaparece solo.
+
+Consejos para las fotos:
+
+- **Subilas grandes**, de al menos 1600 píxeles de ancho. El sitio las
+  achica y las optimiza solo.
+- Las de **iluminación tienen que ser de noche**. Es cuando se ve el
+  trabajo.
+- La de arriba de todo (`hero.jpg`) **no es un retrato**: va una obra
+  terminada o un jardín iluminado. El retrato va abajo, en "Sobre Franco".
+- Sirven `.jpg`, `.png` y `.webp`. Si tu archivo es `.png`, cambiale el
+  nombre a `hero.png` y listo, lo encuentra igual.
+
+---
+
+## Sumar una obra
+
+Las obras están en el archivo **`src/data/obras.json`**.
+
+Cada obra es un bloque entre llaves `{ }`, separado del siguiente por una
+coma. Así se ve una obra ya cargada:
+
+```json
+{
+  "id": "obra-1",
+  "pendiente": false,
+  "barrio": "Nordelta",
+  "tipo": "Obra nueva",
+  "descripcion": "Instalación completa de una casa de cuatro ambientes, con tablero, circuitos separados e iluminación de jardín. Junto al estudio Tal y Tal.",
+  "foto": "obra-nordelta.jpg",
+  "alt": "Living de una casa nueva con la iluminación embutida encendida."
+}
+```
+
+Qué va en cada línea:
+
+- **`id`**: un nombre corto para identificarla. No se ve en el sitio.
+  Que no se repita con otra.
+- **`pendiente`**: poné `false` cuando la obra ya esté cargada de verdad.
+  Mientras diga `true`, muestra el cartel de "Ejemplo a completar".
+- **`barrio`**: dónde fue. Aparece arriba, en naranja.
+- **`tipo`**: qué clase de trabajo fue. Es el título de la obra.
+- **`descripcion`**: una línea contando qué incluyó. Corta y concreta.
+  Los números y los nombres de estudios suman mucho.
+- **`foto`**: el nombre del archivo de foto, que tenés que haber copiado
+  antes en `src/images/`.
+- **`alt`**: una descripción de lo que se ve en la foto. Sirve para Google
+  y para las personas que no pueden ver la imagen.
+
+**Para agregar otra obra**, copiá un bloque entero (desde `{` hasta `}`),
+pegalo abajo, y **acordate de poner una coma entre bloque y bloque**. El
+último bloque NO lleva coma.
+
+Van bien entre 3 y 6 obras. Más que eso cansa.
+
+---
+
+## Sumar una zona nueva
+
+Las zonas están en **`src/data/zonas.json`**. Hoy están así:
+
+```json
+[
+  {
+    "nombre": "San Fernando",
+    "slug": "san-fernando",
+    "pagina": true,
+    "titulo": "...",
+    "descripcion": "...",
+    "entrada": "...",
+    "detalle": "..."
+  },
+  { "nombre": "Nordelta", "slug": "nordelta", "pagina": false },
+  ...
+]
+```
+
+Hay dos cosas distintas acá:
+
+**1. Que la zona figure en la lista "Dónde trabaja".**
+Con que esté el `nombre` ya alcanza. Aparece en el sitio y Google la lee.
+
+**2. Que la zona tenga su propia página.**
+Cambiá `"pagina": false` por `"pagina": true`. Con eso solo, el sitio le
+arma una página entera en `francoelectricista.com.ar/zonas/nordelta/`, con
+textos genéricos que ya están escritos.
+
+Si además querés escribirle textos propios (que siempre funciona mejor),
+agregale estas cuatro líneas, copiando cómo está San Fernando:
+
+- **`titulo`**: lo que aparece en la pestaña del navegador y en Google.
+  Que no pase de 60 letras.
+- **`descripcion`**: el resumen que Google muestra abajo del título.
+  Unas 150 letras.
+- **`entrada`**: el primer párrafo de la página.
+- **`detalle`**: el segundo párrafo.
+
+**El `slug` es la dirección web de la zona**: tiene que ir todo en
+minúsculas, sin acentos y con guiones en lugar de espacios.
+Por ejemplo: `san-fernando`, `benavidez`, `pilar`.
+
+---
+
+## Cambiar los textos de las secciones
+
+Los servicios están en **`src/data/servicios.json`** y funcionan igual que
+las obras: cada servicio es un bloque entre llaves.
+
+El resto de los textos (el título grande de arriba, la explicación de
+iluminación de jardín, la de "Por qué un matriculado") están en los archivos
+de la carpeta `src/components/`. Ahí ya hay código mezclado con el texto,
+así que **si no estás cómodo, pedile a alguien que lo haga**. El texto está
+siempre entre `>` y `<`, así:
+
+```html
+<h2 class="titulo-2">Obras realizadas</h2>
+```
+
+Se cambia solamente `Obras realizadas`. Todo lo demás se deja igual.
+
+---
+
+## Publicar el sitio en internet
+
+El sitio es **estático**: son archivos sueltos, no necesita base de datos ni
+servidor especial. Eso lo hace barato (gratis, en general) y muy rápido.
+
+Para generar los archivos finales:
+
+```
+npm run build
+```
+
+Eso crea una carpeta `dist/`. Esa carpeta es el sitio terminado.
+
+Lo más simple es conectar este proyecto a **Netlify**, **Vercel** o
+**Cloudflare Pages**. Cualquiera de los tres es gratis para un sitio así, y
+una vez conectados **se actualizan solos cada vez que subís un cambio**.
+
+Cuando lo publiques, revisá que el dominio configurado sea el correcto: está
+en el archivo `astro.config.mjs`, en la línea que dice
+`https://francoelectricista.com.ar`.
+
+---
+
+## Cosas que NO hay que hacer
+
+- **No pongas "urgencias" ni "24 horas" en ningún lado.** Franco atiende de
+  lunes a viernes en horario comercial. Prometer otra cosa trae llamadas
+  que no puede atender y clientes enojados.
+- **No pongas el número de matrícula.** Alcanza con "Electricista
+  matriculado".
+- **No inventes obras, clientes ni reseñas.** Es lo primero que un
+  arquitecto detecta, y es exactamente el público al que le habla el sitio.
+- **No uses fotos bajadas de internet.** Se nota, y arruina la confianza que
+  el sitio está tratando de construir. Mejor un cartel naranja que dice que
+  falta la foto, que una foto que no es de Franco.
+- **No borres las carpetas `node_modules` ni `dist`** si no sabés qué son
+  (aunque si las borrás no pasa nada grave: se vuelven a crear).
+
+---
+
+## Cómo está hecho, en dos líneas
+
+Está hecho con **Astro**, que genera páginas estáticas. No usa librerías de
+diseño ni carga nada de servidores ajenos: las tipografías están adentro del
+proyecto y no hay rastreadores de terceros. Por eso **no necesita cartel de
+cookies** y carga muy rápido incluso con mala señal.
+
+```
+src/
+  pages/          las páginas (inicio, zonas, gracias)
+  components/     los bloques que arman las páginas
+  data/           LOS TEXTOS Y DATOS ← acá se edita
+  images/         LAS FOTOS ← acá se copian
+  styles/         los colores y tamaños
+  layouts/        la estructura común a todas las páginas
+public/           el logo, la imagen para compartir y las tipografías
+```

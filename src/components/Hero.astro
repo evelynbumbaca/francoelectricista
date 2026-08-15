@@ -1,0 +1,184 @@
+---
+import { Image } from 'astro:assets';
+import BotonLuz from './BotonLuz.astro';
+import { NEGOCIO, linkWhatsapp } from '../data/sitio.js';
+import { buscarFoto } from '../data/fotos.js';
+
+const whatsappHero = linkWhatsapp('un presupuesto');
+
+// Si el archivo src/images/hero.jpg existe, se muestra la foto.
+// Si no, se muestra el cartel de foto pendiente.
+const fotoHero = buscarFoto('hero.jpg');
+---
+
+<section class="hero halo" aria-labelledby="titulo-principal">
+  <div class="contenedor">
+    <div class="hero__texto">
+      <h1 class="titulo-1 hero__titulo" id="titulo-principal">
+        Electricista matriculado en zona norte: obra nueva, refacciones e <span
+          class="destacado">iluminación de jardín</span
+        >.
+      </h1>
+
+      <p class="guia hero__bajada">
+        Franco hace la instalación eléctrica completa de casas en barrios
+        privados de zona norte, en conjunto con estudios de arquitectura y con
+        el plano sobre la mesa. También refacciones, colocación de artefactos e
+        iluminación de exteriores en casas que ya están habitadas.
+      </p>
+
+      <div class="hero__acciones">
+        <BotonLuz
+          href={whatsappHero}
+          variante="primario"
+          icono="whatsapp"
+          contacto="whatsapp"
+          origen="hero"
+        >
+          Pedir presupuesto por WhatsApp
+        </BotonLuz>
+        <BotonLuz href="#obras" variante="secundario" icono="flecha" luz={false}>
+          Ver obras
+        </BotonLuz>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOTO PRINCIPAL —————————————————————————————————————————————
+       El espacio ya está reservado con la proporción exacta, así que
+       cuando se cargue la foto de verdad la página no se va a mover.
+       Instrucciones para reemplazarlo: ver README.md -->
+  <div class="contenedor">
+    <figure class="hero__figura">
+      {
+        fotoHero ? (
+          <Image
+            class="hero__imagen"
+            src={fotoHero}
+            alt="Instalación eléctrica terminada en una casa de zona norte."
+            widths={[640, 960, 1400, 1920]}
+            sizes="(min-width: 1240px) 1240px, 100vw"
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
+          />
+        ) : (
+          <div class="hueco-foto hero__hueco">
+            <p class="hueco-foto__etiqueta">{'{FOTO_HERO}'}</p>
+            <p class="hueco-foto__nota">
+              Obra terminada o jardín iluminado de noche, apaisada. Que no sea
+              un retrato: el retrato va más abajo, en «Sobre Franco».
+            </p>
+          </div>
+        )
+      }
+    </figure>
+  </div>
+
+  <div class="contenedor">
+    <ul class="hero__datos">
+      <li class="hero__dato">
+        <span class="utilitaria hero__dato-clave">Matrícula</span>
+        <span class="hero__dato-valor">Electricista matriculado</span>
+      </li>
+      <li class="hero__dato">
+        <span class="utilitaria hero__dato-clave">Trabaja en</span>
+        <span class="hero__dato-valor">
+          Nordelta, Benavídez, Pilar, Escobar y San Fernando
+        </span>
+      </li>
+      <li class="hero__dato">
+        <span class="utilitaria hero__dato-clave">Atención</span>
+        <span class="hero__dato-valor">{NEGOCIO.horarioTexto}</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    z-index: var(--z-contenido);
+    padding-block: clamp(3rem, 2rem + 6vw, 7rem) var(--e-9);
+  }
+
+  .hero__titulo {
+    max-width: 17ch;
+    margin-block-end: var(--e-6);
+  }
+
+  .destacado {
+    color: var(--ambar);
+  }
+
+  .hero__bajada {
+    max-width: var(--ancho-texto);
+    margin-block-end: var(--e-7);
+  }
+
+  .hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-4);
+    margin-block-end: var(--e-8);
+  }
+
+  /* --- La foto principal ------------------------------------------------ */
+
+  .hero__figura {
+    position: relative;
+    aspect-ratio: 16 / 8;
+    margin-block-end: var(--e-7);
+    overflow: hidden;
+    border-radius: var(--radio-2);
+  }
+
+  .hero__hueco,
+  .hero__imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 46rem) {
+    .hero__figura {
+      aspect-ratio: 4 / 3;
+    }
+
+    .hero__acciones > :global(.boton) {
+      width: 100%;
+    }
+  }
+
+  /* --- Los tres datos duros --------------------------------------------- */
+
+  .hero__datos {
+    display: grid;
+    gap: var(--e-5);
+    padding-block-start: var(--e-6);
+    border-block-start: 1px solid var(--borde);
+  }
+
+  @media (min-width: 46rem) {
+    .hero__datos {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--e-6);
+    }
+  }
+
+  .hero__dato {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-2);
+  }
+
+  .hero__dato-clave {
+    color: var(--ambar);
+  }
+
+  .hero__dato-valor {
+    font-size: var(--t-menor);
+    line-height: 1.45;
+    color: var(--texto-tenue);
+  }
+</style>

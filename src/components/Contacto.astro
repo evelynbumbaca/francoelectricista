@@ -1,0 +1,167 @@
+---
+import BotonLuz from './BotonLuz.astro';
+import { NEGOCIO, linkWhatsapp } from '../data/sitio.js';
+
+interface Props {
+  /** Tema que se agrega al mensaje de WhatsApp, para saber de dónde vino. */
+  tema?: string;
+  origen?: string;
+}
+
+const { tema = 'un trabajo', origen = 'contacto' } = Astro.props;
+
+const whatsapp = linkWhatsapp(tema);
+const correoCargado = !String(NEGOCIO.correo).includes('{');
+---
+
+<section class="contacto halo" id="contacto" aria-labelledby="t-contacto">
+  <div class="contenedor contacto__grilla">
+    <div class="contacto__llamado revelar">
+      <p class="rotulo"><span class="rotulo__numero">07</span> Contacto</p>
+      <h2 class="titulo-2" id="t-contacto">Pedile un presupuesto</h2>
+      <p class="guia contacto__texto">
+        Escribile por WhatsApp contando qué necesitás. Si es una obra, con el
+        plano o unas fotos alcanza para arrancar; si es un trabajo puntual, con
+        que cuentes qué pasa ya es suficiente.
+      </p>
+
+      <div class="contacto__botones">
+        <BotonLuz
+          href={whatsapp}
+          variante="primario"
+          icono="whatsapp"
+          contacto="whatsapp"
+          origen={origen}
+        >
+          Escribir por WhatsApp
+        </BotonLuz>
+        <BotonLuz
+          href={`tel:${NEGOCIO.telefonoLink}`}
+          variante="secundario"
+          icono="telefono"
+          contacto="telefono"
+          origen={origen}
+          luz={false}
+        >
+          Llamar
+        </BotonLuz>
+      </div>
+    </div>
+
+    <dl class="contacto__datos revelar revelar--secuencia">
+      <div class="dato" style="--i:0">
+        <dt class="dato__clave utilitaria">Teléfono y WhatsApp</dt>
+        <dd class="dato__valor">
+          <a
+            href={`tel:${NEGOCIO.telefonoLink}`}
+            data-contacto="telefono"
+            data-origen={`${origen}-lista`}
+          >
+            {NEGOCIO.telefono}
+          </a>
+        </dd>
+      </div>
+
+      <div class="dato" style="--i:1">
+        <dt class="dato__clave utilitaria">Correo</dt>
+        <dd class="dato__valor">
+          {
+            correoCargado ? (
+              <a href={`mailto:${NEGOCIO.correo}`}>{NEGOCIO.correo}</a>
+            ) : (
+              <span class="pendiente">{'{EMAIL}'}</span>
+            )
+          }
+        </dd>
+      </div>
+
+      <div class="dato" style="--i:2">
+        <dt class="dato__clave utilitaria">Horario</dt>
+        <dd class="dato__valor">{NEGOCIO.horarioTexto}</dd>
+      </div>
+
+      <div class="dato" style="--i:3">
+        <dt class="dato__clave utilitaria">Base</dt>
+        <dd class="dato__valor">
+          {NEGOCIO.localidad}, provincia de {NEGOCIO.provincia}
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .contacto {
+    position: relative;
+    z-index: var(--z-contenido);
+    padding-block: var(--e-10);
+    background-color: var(--superficie);
+    border-block-start: 1px solid var(--borde);
+  }
+
+  .contacto__grilla {
+    display: grid;
+    gap: var(--e-8);
+    align-items: start;
+  }
+
+  @media (min-width: 60rem) {
+    .contacto__grilla {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--e-9);
+    }
+  }
+
+  .contacto__texto {
+    max-width: var(--ancho-texto);
+    margin-block-start: var(--e-5);
+  }
+
+  .contacto__botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-4);
+    margin-block-start: var(--e-7);
+  }
+
+  @media (max-width: 30rem) {
+    .contacto__botones > :global(.boton) {
+      width: 100%;
+    }
+  }
+
+  .contacto__datos {
+    display: grid;
+    gap: var(--e-5);
+  }
+
+  .dato {
+    display: grid;
+    gap: var(--e-2);
+    padding-block-start: var(--e-4);
+    border-block-start: 1px solid var(--borde);
+  }
+
+  .dato__clave {
+    color: var(--ambar);
+  }
+
+  .dato__valor {
+    font-size: var(--t-cuerpo);
+    line-height: 1.4;
+    color: var(--texto);
+  }
+
+  .dato__valor a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--toque-minimo);
+    border-block-end: 1px solid var(--ambar-a32);
+    transition: color var(--transicion-ui), border-color var(--transicion-ui);
+  }
+
+  .dato__valor a:hover {
+    color: var(--ambar);
+    border-block-end-color: var(--ambar);
+  }
+</style>

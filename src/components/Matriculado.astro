@@ -1,0 +1,125 @@
+---
+// Los tres trámites que solo puede firmar un matriculado. Le habla al
+// arquitecto, que ya lo sabe, y le explica al dueño de casa, que no.
+const puntos = [
+  {
+    numero: '01',
+    titulo: 'Certificado de instalación',
+    texto:
+      'Para habilitar un local hace falta un certificado de la instalación eléctrica firmado por un matriculado. Sin esa firma, el trámite no avanza.',
+  },
+  {
+    numero: '02',
+    titulo: 'Medidor y DCI',
+    texto:
+      'El pedido de medidor nuevo y la certificación DCI los presenta un matriculado. Es quien responde por lo que quedó detrás de la pared.',
+  },
+  {
+    numero: '03',
+    titulo: 'Planos para el municipio',
+    texto:
+      'El plano eléctrico que se presenta en el municipio va firmado. Es el mismo plano que después usa el estudio de arquitectura para coordinar la obra.',
+  },
+];
+---
+
+<section class="matriculado" id="matriculado" aria-labelledby="t-matriculado">
+  <div class="contenedor">
+    <div class="matriculado__encabezado revelar">
+      <p class="rotulo"><span class="rotulo__numero">04</span> Matrícula</p>
+      <h2 class="titulo-2" id="t-matriculado">Por qué un matriculado</h2>
+      <p class="guia medida matriculado__intro">
+        Un electricista matriculado está habilitado a firmar. Esa firma es la
+        que los trámites aceptan, y es la diferencia concreta con quien no la
+        tiene.
+      </p>
+    </div>
+
+    <ol class="matriculado__puntos revelar revelar--secuencia">
+      {
+        puntos.map((punto, i) => (
+          <li class="punto" style={`--i:${i}`}>
+            <span class="punto__numero utilitaria">{punto.numero}</span>
+            <h3 class="punto__titulo">{punto.titulo}</h3>
+            <p class="punto__texto">{punto.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="sello revelar">
+      <span class="sello__marca utilitaria">Electricista matriculado</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .matriculado {
+    position: relative;
+    z-index: var(--z-contenido);
+    padding-block: var(--e-10);
+    background-color: var(--superficie);
+    border-block: 1px solid var(--borde);
+  }
+
+  .matriculado__intro {
+    margin-block-start: var(--e-5);
+  }
+
+  .matriculado__puntos {
+    display: grid;
+    gap: var(--e-6);
+    margin-block-start: var(--e-8);
+  }
+
+  @media (min-width: 52rem) {
+    .matriculado__puntos {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--e-7);
+    }
+  }
+
+  .punto {
+    display: grid;
+    gap: var(--e-3);
+    align-content: start;
+    padding-block-start: var(--e-5);
+    border-block-start: 1px solid var(--ambar-a32);
+  }
+
+  .punto__numero {
+    color: var(--ambar);
+  }
+
+  .punto__titulo {
+    font-family: var(--fuente-display);
+    font-size: var(--t-titulo-3);
+    font-weight: 600;
+    font-stretch: 100%;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .punto__texto {
+    font-size: var(--t-menor);
+    line-height: 1.55;
+    color: var(--texto-tenue);
+    text-wrap: pretty;
+  }
+
+  /* El sello: se lee como el cuño que va en un plano. Sin número: la
+     matrícula existe, pero no se publica. */
+  .sello {
+    margin-block-start: var(--e-8);
+  }
+
+  .sello__marca {
+    display: inline-block;
+    padding: var(--e-3) var(--e-5);
+    color: var(--ambar);
+    border: 1px solid var(--ambar-a32);
+    border-radius: var(--radio);
+    background-color: var(--ambar-a04);
+  }
+</style>

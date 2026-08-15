@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Iluminacion from '../components/Iluminacion.astro';
+import Obras from '../components/Obras.astro';
+import Servicios from '../components/Servicios.astro';
+import Matriculado from '../components/Matriculado.astro';
+import Zonas from '../components/Zonas.astro';
+import Sobre from '../components/Sobre.astro';
+import Contacto from '../components/Contacto.astro';
+import BarraMobile from '../components/BarraMobile.astro';
+
+const titulo = 'Franco · Electricista matriculado en zona norte';
+const descripcion =
+  'Electricista matriculado en zona norte. Instalaciones de obra nueva con planos junto a estudios de arquitectura, refacciones e iluminación de jardín.';
+---
+
+<Base titulo={titulo} descripcion={descripcion} ruta="/">
+  <Hero />
+  <main id="contenido">
+    <Iluminacion />
+    <Obras />
+    <Servicios />
+    <Matriculado />
+    <Zonas />
+    <Sobre />
+    <Contacto tema="un trabajo" origen="contacto-home" />
+  </main>
+  <BarraMobile origen="home" />
+</Base>

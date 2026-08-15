@@ -1,0 +1,105 @@
+/* ==========================================================================
+   TOKENS — las decisiones de diseño, todas juntas y en un solo lugar.
+   Si algún día se quiere cambiar un color o un tamaño en todo el sitio,
+   se cambia acá y listo. No hay que tocar nada más.
+   ========================================================================== */
+
+:root {
+  /* --- Color -------------------------------------------------------------
+     Grafito cálido, nunca negro azulado. El ámbar es el único acento.
+     No sumar un segundo color: el sistema depende de que la luz sea lo
+     único que tiene temperatura. */
+
+  --fondo: #141110;
+  --superficie: #1e1a17;
+  --superficie-2: #241f1b; /* derivado: tarjetas sobre superficie */
+  --borde: #2e2723;
+  --texto: #f0eae3;
+  --texto-tenue: #a2978c; /* 6.6:1 sobre --fondo — cumple AA */
+
+  --ambar: #ffb35c; /* 9.7:1 sobre --superficie */
+  --ambar-calido: #ffd9a0; /* el pico del encendido */
+  --ambar-profundo: #d8822a; /* el filamento frío, arranque del encendido */
+
+  /* Versiones con alfa del mismo ámbar, para halos y bordes encendidos.
+     No son colores nuevos: es el mismo acento a distinta intensidad. */
+  --ambar-a04: rgb(255 179 92 / 0.04);
+  --ambar-a08: rgb(255 179 92 / 0.08);
+  --ambar-a16: rgb(255 179 92 / 0.16);
+  --ambar-a32: rgb(255 179 92 / 0.32);
+  --ambar-a64: rgb(255 179 92 / 0.64);
+
+  /* --- Tipografía --------------------------------------------------------
+     Archivo (variable, con eje de ancho) para titulares y etiquetas.
+     Instrument Sans para el cuerpo. Las dos están en /public/fonts. */
+
+  --fuente-display: 'Archivo', 'Archivo Fallback', system-ui, sans-serif;
+  --fuente-cuerpo: 'Instrument Sans', 'Instrument Sans Fallback', system-ui, sans-serif;
+
+  /* Escala tipográfica. El cuerpo nunca baja de 17px en celular. */
+  --t-etiqueta: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --t-menor: clamp(0.94rem, 0.91rem + 0.15vw, 1rem);
+  --t-cuerpo: clamp(1.0625rem, 1.03rem + 0.22vw, 1.1875rem);
+  --t-guia: clamp(1.15rem, 1.05rem + 0.5vw, 1.45rem);
+  --t-titulo-3: clamp(1.3rem, 1.2rem + 0.6vw, 1.7rem);
+  --t-titulo-2: clamp(1.9rem, 1.5rem + 1.9vw, 3.1rem);
+  --t-titulo-1: clamp(2.6rem, 1.75rem + 3.9vw, 5.4rem);
+  --t-dato: clamp(2.2rem, 1.7rem + 2.2vw, 3.4rem);
+
+  /* Ejes de la fuente variable: los titulares grandes van condensados. */
+  --ancho-titular: 86%;
+  --ancho-normal: 100%;
+
+  --interlinea-apretada: 0.98;
+  --interlinea-media: 1.22;
+  --interlinea-texto: 1.62;
+
+  --tracking-etiqueta: 0.16em;
+  --tracking-titular: -0.02em;
+
+  /* --- Espacio -----------------------------------------------------------
+     Mucho aire negativo: es lo que separa este sitio de una plantilla. */
+
+  --e-1: 0.25rem;
+  --e-2: 0.5rem;
+  --e-3: 0.75rem;
+  --e-4: 1rem;
+  --e-5: 1.5rem;
+  --e-6: 2rem;
+  --e-7: 3rem;
+  --e-8: 4rem;
+  --e-9: 6rem;
+  --e-10: clamp(4.5rem, 3rem + 7vw, 9rem); /* aire entre secciones */
+
+  /* --- Medidas -----------------------------------------------------------  */
+
+  --ancho-contenedor: 1240px;
+  --ancho-texto: 64ch; /* la línea de texto nunca pasa de ~68 caracteres */
+  --calle: clamp(1.25rem, 0.6rem + 3vw, 3rem); /* margen lateral */
+  --toque-minimo: 44px; /* área táctil mínima, no bajar de acá */
+
+  --radio: 4px;
+  --radio-2: 6px;
+
+  /* --- Movimiento --------------------------------------------------------
+     El encendido es asimétrico: sube rápido y cae lento. Si los dos
+     tiempos fueran iguales, el efecto se sentiría digital, no físico. */
+
+  --luz-subida: 120ms;
+  --luz-caida: 450ms;
+  --luz-deriva: 150ms; /* lo que tarda el filamento en calentarse */
+  --luz-halo: 400ms;
+
+  --ease-subida: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-caida: cubic-bezier(0.4, 0, 1, 1);
+  --ease-suave: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --transicion-ui: 180ms var(--ease-suave);
+
+  /* --- Capas ------------------------------------------------------------- */
+
+  --z-reticula: 0;
+  --z-contenido: 1;
+  --z-barra-mobile: 50;
+  --z-encabezado: 60;
+}

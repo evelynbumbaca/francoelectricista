@@ -1,0 +1,481 @@
+/* ==========================================================================
+   GLOBAL — tipografía, reset y las piezas que se repiten en todo el sitio.
+   ========================================================================== */
+
+@import './tokens.css';
+
+/* --- Fuentes ------------------------------------------------------------
+   Están descargadas dentro del proyecto (/public/fonts). No se piden a
+   Google: el sitio carga más rápido y no depende de nadie.
+   Son "variables": un solo archivo cubre todos los pesos y anchos. */
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/archivo-var-latin.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('/fonts/instrument-sans-var-latin.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Fuentes de reemplazo ajustadas para que el texto no "salte" de tamaño
+   en el instante en que terminan de cargar las verdaderas. */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial');
+  size-adjust: 98%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Instrument Sans Fallback';
+  src: local('Arial');
+  size-adjust: 101%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+/* --- Reset --------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Que el ancla de una sección no quede pegada al borde de arriba. */
+  scroll-padding-top: var(--e-7);
+}
+
+body {
+  background-color: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--t-cuerpo);
+  line-height: var(--interlinea-texto);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Espacio abajo para que la barra fija de celular no tape el final de la
+   página. Solo hace falta donde la barra existe. */
+@media (max-width: 46rem) {
+  body {
+    padding-block-end: calc(76px + env(safe-area-inset-bottom));
+  }
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+::selection {
+  background-color: var(--ambar);
+  color: var(--fondo);
+}
+
+/* --- Foco de teclado -----------------------------------------------------
+   Coherente con el sistema de luz: el foco también se enciende. */
+
+:focus-visible {
+  outline: 2px solid var(--ambar);
+  outline-offset: 3px;
+  border-radius: var(--radio);
+}
+
+/* --- Enlace para saltar al contenido (accesibilidad) --------------------- */
+
+.saltar {
+  position: absolute;
+  left: var(--e-4);
+  top: var(--e-4);
+  z-index: 100;
+  padding: var(--e-3) var(--e-5);
+  background-color: var(--ambar);
+  color: var(--fondo);
+  font-family: var(--fuente-display);
+  font-weight: 600;
+  border-radius: var(--radio);
+  transform: translateY(-160%);
+  transition: transform var(--transicion-ui);
+}
+
+.saltar:focus-visible {
+  transform: translateY(0);
+}
+
+/* --- Estructura ---------------------------------------------------------- */
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-contenedor);
+  margin-inline: auto;
+  padding-inline: var(--calle);
+}
+
+.seccion {
+  position: relative;
+  padding-block: var(--e-10);
+}
+
+/* Línea divisoria fina entre dos secciones seguidas, del ancho del
+   contenedor. Se dibuja sola: solo aparece cuando una sección viene
+   pegada a otra. Las secciones con fondo propio ya traen su propio borde,
+   así que no se duplica nunca. */
+.seccion + .seccion::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: var(--calle);
+  height: 1px;
+  background-color: var(--borde);
+  max-width: var(--ancho-contenedor);
+  margin-inline: auto;
+}
+
+.medida {
+  max-width: var(--ancho-texto);
+}
+
+/* --- Rótulo de sección ---------------------------------------------------
+   La etiqueta chiquita tipo leyenda de plano eléctrico: "01 / ILUMINACIÓN" */
+
+.rotulo {
+  display: flex;
+  align-items: center;
+  gap: var(--e-3);
+  font-family: var(--fuente-display);
+  font-size: var(--t-etiqueta);
+  font-weight: 500;
+  font-stretch: var(--ancho-normal);
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: uppercase;
+  color: var(--ambar);
+  margin-block-end: var(--e-5);
+}
+
+.rotulo::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background-color: currentColor;
+  flex: none;
+}
+
+.rotulo__numero {
+  color: var(--texto-tenue);
+}
+
+/* --- Titulares ------------------------------------------------------------ */
+
+.titulo-1,
+.titulo-2,
+.titulo-3 {
+  font-family: var(--fuente-display);
+  letter-spacing: var(--tracking-titular);
+  text-wrap: balance;
+}
+
+.titulo-1 {
+  font-size: var(--t-titulo-1);
+  font-weight: 600;
+  font-stretch: var(--ancho-titular);
+  line-height: var(--interlinea-apretada);
+}
+
+.titulo-2 {
+  font-size: var(--t-titulo-2);
+  font-weight: 600;
+  font-stretch: var(--ancho-titular);
+  line-height: 1.05;
+}
+
+.titulo-3 {
+  font-size: var(--t-titulo-3);
+  font-weight: 600;
+  font-stretch: var(--ancho-normal);
+  line-height: var(--interlinea-media);
+  letter-spacing: -0.01em;
+}
+
+.guia {
+  font-size: var(--t-guia);
+  line-height: 1.45;
+  color: var(--texto-tenue);
+  text-wrap: pretty;
+}
+
+.texto-tenue {
+  color: var(--texto-tenue);
+}
+
+/* Texto utilitario para datos técnicos y etiquetas. */
+.utilitaria {
+  font-family: var(--fuente-display);
+  font-size: var(--t-etiqueta);
+  font-weight: 500;
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: uppercase;
+}
+
+/* --- Marcas de pendiente -------------------------------------------------
+   Todo lo que falta se ve en la pantalla, no escondido en un comentario.
+   Cuando Franco carga el dato de verdad, estas marcas desaparecen solas. */
+
+.pendiente {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  padding: 0.2em 0.6em;
+  border: 1px dashed var(--ambar-a32);
+  border-radius: var(--radio);
+  background-color: var(--ambar-a04);
+  color: var(--ambar);
+  font-family: var(--fuente-display);
+  font-size: var(--t-etiqueta);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Bloque de foto que todavía no existe. Reserva la proporción exacta para
+   que al cargar la foto de verdad la página no se mueva ni un pixel. */
+.hueco-foto {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-3);
+  padding: var(--e-5);
+  text-align: center;
+  background-color: var(--superficie);
+  border: 1px dashed var(--borde);
+  border-radius: var(--radio-2);
+  overflow: hidden;
+}
+
+/* Retícula técnica dentro del hueco: se lee como plano, no como error. */
+.hueco-foto::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--ambar-a08) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ambar-a08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hueco-foto > * {
+  position: relative;
+}
+
+.hueco-foto__etiqueta {
+  font-family: var(--fuente-display);
+  font-size: var(--t-etiqueta);
+  font-weight: 500;
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: uppercase;
+  color: var(--ambar);
+}
+
+.hueco-foto__nota {
+  max-width: 34ch;
+  font-size: var(--t-menor);
+  line-height: 1.5;
+  color: var(--texto-tenue);
+}
+
+/* --- Aparición al hacer scroll -------------------------------------------
+   Las secciones se encienden al entrar en pantalla. Es el mismo gesto de
+   luz del botón, pero mucho más contenido. */
+
+/* Ojo con el `.js`: el contenido arranca escondido SOLO si el navegador
+   tiene JavaScript andando. Si no lo tiene, o si algo falla, la página se
+   ve entera igual. Nunca puede quedar una página en blanco. */
+
+.js .revelar {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 620ms var(--ease-suave), transform 620ms var(--ease-suave);
+}
+
+.js .revelar.encendido {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Escalonado: los hijos entran uno atrás del otro. */
+.js .revelar--secuencia > * {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 520ms var(--ease-suave), transform 520ms var(--ease-suave);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.js .revelar--secuencia.encendido > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Halo ambiental: queda un instante después de que la luz pasó, como si
+   hubiera calentado el aire. Solo opacidad, nunca sombras ni desenfoques. */
+.halo {
+  position: relative;
+}
+
+.halo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    120% 90% at var(--hx, 50%) var(--hy, 50%),
+    var(--ambar-a08) 0%,
+    transparent 62%
+  );
+  transition: opacity var(--luz-halo) var(--ease-caida);
+}
+
+.halo.halo--activo::after {
+  opacity: 1;
+  transition-duration: var(--luz-subida);
+  transition-timing-function: var(--ease-subida);
+}
+
+/* --- Retícula técnica de fondo -------------------------------------------
+   Líneas finas tipo plano eléctrico que se iluminan cerca del cursor.
+   Solo en pantallas con mouse: en celular no hay cursor al que responder
+   y no vale gastar rendimiento donde está la mayoría de las visitas. */
+
+.reticula {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reticula {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-reticula);
+    pointer-events: none;
+    background-image: linear-gradient(var(--texto) 1px, transparent 1px),
+      linear-gradient(90deg, var(--texto) 1px, transparent 1px);
+    background-size: 68px 68px;
+    opacity: 0.028;
+  }
+
+  /* La capa que se enciende: la misma grilla en ámbar, recortada a un
+     círculo que sigue al cursor. */
+  .reticula__luz {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--ambar) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ambar) 1px, transparent 1px);
+    background-size: 68px 68px;
+    opacity: 0;
+    transition: opacity 400ms var(--ease-suave);
+    -webkit-mask-image: radial-gradient(
+      220px 220px at var(--mx, -999px) var(--my, -999px),
+      #000 0%,
+      transparent 70%
+    );
+    mask-image: radial-gradient(
+      220px 220px at var(--mx, -999px) var(--my, -999px),
+      #000 0%,
+      transparent 70%
+    );
+  }
+
+  .reticula--viva .reticula__luz {
+    opacity: 1;
+  }
+}
+
+/* --- Menos movimiento ----------------------------------------------------
+   Si la persona pidió en su sistema operativo menos animaciones, se apaga
+   todo el movimiento. El sitio queda igual de usable, sin transiciones. */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .revelar,
+  .js .revelar--secuencia > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reticula {
+    display: none;
+  }
+
+  .halo::after {
+    display: none;
+  }
+}

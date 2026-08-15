@@ -1,0 +1,84 @@
+---
+import zonas from '../data/zonas.json';
+---
+
+<section class="seccion" id="zonas" aria-labelledby="t-zonas">
+  <div class="contenedor">
+    <div class="revelar">
+      <p class="rotulo"><span class="rotulo__numero">05</span> Zonas</p>
+      <h2 class="titulo-2" id="t-zonas">Dónde trabaja</h2>
+      <p class="guia medida zonas__intro">
+        Barrios privados y casas de zona norte del Gran Buenos Aires, con base
+        en San Fernando.
+      </p>
+    </div>
+
+    <ul class="zonas__lista revelar revelar--secuencia">
+      {
+        zonas.map((zona, i) => (
+          <li class="zona" style={`--i:${i}`}>
+            {zona.pagina ? (
+              <a class="zona__enlace" href={`/zonas/${zona.slug}/`}>
+                <span class="zona__nombre">{zona.nombre}</span>
+                <span class="zona__accion utilitaria">Ver zona</span>
+              </a>
+            ) : (
+              <span class="zona__enlace zona__enlace--simple">
+                <span class="zona__nombre">{zona.nombre}</span>
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .zonas__intro {
+    margin-block-start: var(--e-5);
+  }
+
+  .zonas__lista {
+    margin-block-start: var(--e-7);
+    border-block-start: 1px solid var(--borde);
+  }
+
+  .zona {
+    border-block-end: 1px solid var(--borde);
+  }
+
+  .zona__enlace {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--e-4);
+    padding-block: var(--e-5);
+    min-height: var(--toque-minimo);
+    transition: color var(--transicion-ui);
+  }
+
+  .zona__nombre {
+    font-family: var(--fuente-display);
+    font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.8rem);
+    font-weight: 600;
+    font-stretch: var(--ancho-titular);
+    letter-spacing: var(--tracking-titular);
+    line-height: 1.05;
+  }
+
+  .zona__accion {
+    flex: none;
+    color: var(--ambar);
+    opacity: 0.75;
+    transition: opacity var(--transicion-ui);
+  }
+
+  a.zona__enlace:hover {
+    color: var(--ambar);
+  }
+
+  a.zona__enlace:hover .zona__accion {
+    opacity: 1;
+  }
+</style>

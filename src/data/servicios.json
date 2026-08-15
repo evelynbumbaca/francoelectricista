@@ -1,0 +1,42 @@
+[
+  {
+    "grupo": "Obra y proyecto",
+    "resumen": "El trabajo que se hace con planos sobre la mesa, junto al estudio de arquitectura, antes de que la casa exista.",
+    "items": [
+      {
+        "titulo": "Electricidad de obra",
+        "detalle": "Instalación completa en casas nuevas: tableros, circuitos, puesta a tierra y cableado, ejecutado según el plano y coordinado con el resto de la obra."
+      },
+      {
+        "titulo": "Planos eléctricos",
+        "detalle": "Documentación del proyecto para presentar y para que quien venga después sepa por dónde pasa cada circuito."
+      },
+      {
+        "titulo": "Certificados eléctricos y DCI",
+        "detalle": "Certificación de la instalación firmada por matriculado, para habilitaciones y trámites de medidor."
+      },
+      {
+        "titulo": "Mediciones",
+        "detalle": "Medición de puesta a tierra y verificación de la instalación, con los valores por escrito."
+      }
+    ]
+  },
+  {
+    "grupo": "Instalaciones y reformas",
+    "resumen": "Lo que pasa en una casa que ya está habitada, donde hay que trabajar con muebles adentro y dejar todo limpio a la noche.",
+    "items": [
+      {
+        "titulo": "Refacciones e instalaciones",
+        "detalle": "Ampliación de circuitos, cambio de tablero, puntos nuevos y actualización de instalaciones viejas."
+      },
+      {
+        "titulo": "Artefactos de iluminación",
+        "detalle": "Colocación de todo tipo de artefactos: embutidos, colgantes, apliques, veladores de pared y sistemas de exterior."
+      },
+      {
+        "titulo": "Reparaciones",
+        "detalle": "Diagnóstico y arreglo de fallas: térmicas que saltan, circuitos que no dan, tomas que calientan."
+      }
+    ]
+  }
+]

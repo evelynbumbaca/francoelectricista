@@ -1,0 +1,9 @@
+# francoelectricista.com.ar
+
+User-agent: *
+Allow: /
+
+# La página de gracias no tiene por qué aparecer en Google.
+Disallow: /gracias
+
+Sitemap: https://francoelectricista.com.ar/sitemap-index.xml

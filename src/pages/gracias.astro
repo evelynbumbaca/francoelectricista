@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import BotonLuz from '../components/BotonLuz.astro';
+import BarraMobile from '../components/BarraMobile.astro';
+import { NEGOCIO, linkWhatsapp } from '../data/sitio.js';
+
+/**
+ * PÁGINA DE GRACIAS
+ *
+ * Para qué sirve: es la página a la que se puede mandar a alguien después
+ * de que hizo un contacto. Si algún día se hace publicidad, esta página
+ * es la que le avisa a la herramienta de medición "acá hubo una consulta".
+ *
+ * No aparece en Google a propósito (por eso lleva "sinIndexar").
+ */
+
+const whatsapp = linkWhatsapp('un trabajo');
+---
+
+<Base
+  titulo="Gracias por escribir · Franco Electricista"
+  descripcion="Gracias por tu consulta. Franco responde en horario comercial, de lunes a viernes."
+  ruta="/gracias/"
+  sinIndexar={true}
+>
+  <main class="gracias" id="contenido">
+    <div class="contenedor gracias__caja">
+      <p class="rotulo">Consulta enviada</p>
+      <h1 class="titulo-1 gracias__titulo">Gracias por escribir.</h1>
+      <p class="guia gracias__texto">
+        Franco te responde en horario comercial, de lunes a viernes. Si querés
+        agregar algo —una foto, el plano, la dirección de la obra— podés
+        mandarlo por el mismo WhatsApp.
+      </p>
+
+      <div class="gracias__acciones">
+        <BotonLuz
+          href={whatsapp}
+          variante="primario"
+          icono="whatsapp"
+          contacto="whatsapp"
+          origen="gracias"
+        >
+          Seguir la conversación
+        </BotonLuz>
+        <BotonLuz href="/" variante="secundario" icono="flecha" luz={false}>
+          Volver al inicio
+        </BotonLuz>
+      </div>
+
+      <dl class="gracias__datos">
+        <div class="gracias__dato">
+          <dt class="utilitaria">Teléfono</dt>
+          <dd>
+            <a href={`tel:${NEGOCIO.telefonoLink}`}>{NEGOCIO.telefono}</a>
+          </dd>
+        </div>
+        <div class="gracias__dato">
+          <dt class="utilitaria">Horario</dt>
+          <dd>{NEGOCIO.horarioTexto}</dd>
+        </div>
+      </dl>
+    </div>
+  </main>
+  <BarraMobile origen="gracias" />
+</Base>
+
+<style>
+  .gracias {
+    position: relative;
+    z-index: var(--z-contenido);
+    display: flex;
+    align-items: center;
+    min-height: 76svh;
+    padding-block: var(--e-9);
+  }
+
+  .gracias__caja {
+    max-width: 62ch;
+  }
+
+  .gracias__titulo {
+    margin-block-end: var(--e-5);
+  }
+
+  .gracias__texto {
+    max-width: var(--ancho-texto);
+  }
+
+  .gracias__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-4);
+    margin-block-start: var(--e-7);
+  }
+
+  .gracias__datos {
+    display: grid;
+    gap: var(--e-5);
+    margin-block-start: var(--e-8);
+    padding-block-start: var(--e-5);
+    border-block-start: 1px solid var(--borde);
+  }
+
+  @media (min-width: 40rem) {
+    .gracias__datos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .gracias__dato dt {
+    color: var(--ambar);
+    margin-block-end: var(--e-2);
+  }
+
+  .gracias__dato dd {
+    font-size: var(--t-menor);
+    color: var(--texto-tenue);
+  }
+
+  .gracias__dato a {
+    border-block-end: 1px solid var(--ambar-a32);
+  }
+</style>

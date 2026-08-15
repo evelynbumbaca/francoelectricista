@@ -1,0 +1,21 @@
+Acá van todas las fotos del sitio.
+
+Copiá los archivos dentro de esta misma carpeta, con estos nombres:
+
+  hero.jpg           La foto grande de arriba de todo.
+                     Obra terminada o jardín iluminado de noche. Apaisada.
+                     NO va un retrato acá.
+
+  iluminacion-1.jpg  La galería de iluminación de jardín. Todas de noche.
+  iluminacion-2.jpg  La 1 es la más grande: que sea la mejor.
+  iluminacion-3.jpg
+  iluminacion-4.jpg  Esta se muestra apaisada y ancha.
+
+  retrato.jpg        La foto de Franco, para la sección "Sobre Franco".
+
+Para las fotos de obras: poné el archivo acá con el nombre que quieras
+(por ejemplo obra-nordelta.jpg) y después escribí ese mismo nombre en el
+archivo src/data/obras.json. Está explicado en el README.md.
+
+El sitio achica y optimiza las fotos solo. Subilas grandes, sin miedo:
+al menos 1600 pixeles de ancho.

@@ -1,0 +1,16 @@
+# dependencias
+node_modules/
+
+# build
+dist/
+.astro/
+
+# entorno
+.env
+.env.production
+
+# sistema
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

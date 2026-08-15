@@ -1,0 +1,79 @@
+---
+import BotonLuz from './BotonLuz.astro';
+import { NEGOCIO, linkWhatsapp } from '../data/sitio.js';
+
+interface Props {
+  origen?: string;
+}
+
+const { origen = 'barra-mobile' } = Astro.props;
+const whatsapp = linkWhatsapp('un trabajo');
+---
+
+<!--
+  BARRA FIJA DE CELULAR
+  Queda siempre abajo de la pantalla, en celulares y tablets chicas.
+  Los dos botones miden 48px de alto: entran cómodos con el pulgar.
+-->
+<div class="barra-mobile" data-barra-mobile>
+  <div class="barra-mobile__contenido">
+    <BotonLuz
+      href={`tel:${NEGOCIO.telefonoLink}`}
+      variante="barra"
+      icono="telefono"
+      contacto="telefono"
+      origen={origen}
+      luz={false}
+    >
+      Llamar
+    </BotonLuz>
+    <BotonLuz
+      href={whatsapp}
+      variante="primario"
+      icono="whatsapp"
+      contacto="whatsapp"
+      origen={origen}
+      clase="barra-mobile__whatsapp"
+    >
+      WhatsApp
+    </BotonLuz>
+  </div>
+</div>
+
+<style>
+  .barra-mobile {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: var(--z-barra-mobile);
+    background-color: var(--fondo);
+    border-block-start: 1px solid var(--borde);
+    padding-block-end: env(safe-area-inset-bottom);
+  }
+
+  .barra-mobile__contenido {
+    display: flex;
+    gap: var(--e-3);
+    padding: var(--e-3) var(--calle);
+  }
+
+  /* Los dos botones ocupan la mitad cada uno y nunca bajan de 48px. */
+  .barra-mobile__contenido > :global(.boton) {
+    flex: 1;
+    min-height: 48px;
+    padding-inline: var(--e-4);
+  }
+
+  /* El de WhatsApp pesa un poco más: es el que queremos que toquen. */
+  .barra-mobile__contenido > :global(.barra-mobile__whatsapp) {
+    flex: 1.25;
+  }
+
+  /* De tablet para arriba la barra no hace falta: los botones del sitio
+     ya están a la vista. */
+  @media (min-width: 46rem) {
+    .barra-mobile {
+      display: none;
+    }
+  }
+</style>

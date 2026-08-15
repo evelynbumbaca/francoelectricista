@@ -1,0 +1,38 @@
+[
+  {
+    "id": "obra-1",
+    "pendiente": true,
+    "barrio": "{Barrio o localidad}",
+    "tipo": "{Tipo de obra}",
+    "descripcion": "{Una línea: qué incluyó la instalación. Ejemplo del dato que va acá: obra nueva, cantidad de ambientes, tablero y circuitos, trabajo con el estudio tal.}",
+    "foto": "",
+    "alt": ""
+  },
+  {
+    "id": "obra-2",
+    "pendiente": true,
+    "barrio": "{Barrio o localidad}",
+    "tipo": "{Tipo de obra}",
+    "descripcion": "{Una línea: acá conviene un caso de iluminación de jardín, que es lo que mejor se ve en foto.}",
+    "foto": "",
+    "alt": ""
+  },
+  {
+    "id": "obra-3",
+    "pendiente": true,
+    "barrio": "{Barrio o localidad}",
+    "tipo": "{Tipo de obra}",
+    "descripcion": "{Una línea: acá conviene una refacción, para mostrar que también se trabaja sobre casas ya habitadas.}",
+    "foto": "",
+    "alt": ""
+  },
+  {
+    "id": "obra-4",
+    "pendiente": true,
+    "barrio": "{Barrio o localidad}",
+    "tipo": "{Tipo de obra}",
+    "descripcion": "{Una línea: acá conviene un trabajo con certificado o plano, que es lo que le interesa ver a un arquitecto.}",
+    "foto": "",
+    "alt": ""
+  }
+]

@@ -1,0 +1,96 @@
+---
+import servicios from '../data/servicios.json';
+---
+
+<section class="seccion" id="servicios" aria-labelledby="t-servicios">
+  <div class="contenedor">
+    <div class="revelar">
+      <p class="rotulo"><span class="rotulo__numero">03</span> Servicios</p>
+      <h2 class="titulo-2" id="t-servicios">Qué hace Franco</h2>
+    </div>
+
+    <div class="servicios__columnas revelar revelar--secuencia">
+      {
+        servicios.map((columna, i) => (
+          <div class="columna" style={`--i:${i}`}>
+            <h3 class="titulo-3 columna__titulo">{columna.grupo}</h3>
+            <p class="columna__resumen">{columna.resumen}</p>
+
+            <ul class="columna__lista">
+              {columna.items.map((item) => (
+                <li class="servicio">
+                  <h4 class="servicio__titulo">{item.titulo}</h4>
+                  <p class="servicio__detalle">{item.detalle}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .servicios__columnas {
+    display: grid;
+    gap: var(--e-8);
+    margin-block-start: var(--e-8);
+  }
+
+  @media (min-width: 52rem) {
+    .servicios__columnas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--e-9);
+    }
+  }
+
+  .columna__titulo {
+    padding-block-end: var(--e-4);
+    border-block-end: 1px solid var(--ambar-a32);
+  }
+
+  .columna__resumen {
+    max-width: 46ch;
+    margin-block-start: var(--e-4);
+    font-size: var(--t-menor);
+    line-height: 1.55;
+    color: var(--texto-tenue);
+    text-wrap: pretty;
+  }
+
+  .columna__lista {
+    display: grid;
+    gap: var(--e-5);
+    margin-block-start: var(--e-6);
+  }
+
+  .servicio {
+    display: grid;
+    gap: var(--e-2);
+    padding-block-start: var(--e-5);
+    border-block-start: 1px solid var(--borde);
+  }
+
+  .servicio:first-child {
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
+  .servicio__titulo {
+    font-family: var(--fuente-display);
+    font-size: var(--t-cuerpo);
+    font-weight: 600;
+    font-stretch: 100%;
+    letter-spacing: -0.005em;
+    line-height: 1.3;
+  }
+
+  .servicio__detalle {
+    max-width: 48ch;
+    font-size: var(--t-menor);
+    line-height: 1.55;
+    color: var(--texto-tenue);
+    text-wrap: pretty;
+  }
+</style>

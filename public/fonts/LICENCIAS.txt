@@ -1,0 +1,16 @@
+FUENTES USADAS EN ESTE SITIO
+
+Las dos están bajo licencia SIL Open Font License 1.1 (OFL), que permite
+usarlas y distribuirlas en un sitio web sin pagar nada.
+
+1. Archivo — Omnibus-Type
+   https://fonts.google.com/specimen/Archivo
+   Copyright (c) Omnibus-Type
+   Archivo: archivo-var-latin.woff2 (variable: peso y ancho, subconjunto latino)
+
+2. Instrument Sans — Rodrigo Fuenzalida y Jordan Egstad
+   https://fonts.google.com/specimen/Instrument+Sans
+   Copyright (c) The Instrument Sans Project Authors
+   Archivo: instrument-sans-var-latin.woff2 (variable: peso y ancho, subconjunto latino)
+
+Texto completo de la licencia: https://openfontlicense.org/

@@ -1,0 +1,441 @@
+---
+import '../styles/global.css';
+import { NEGOCIO } from '../data/sitio.js';
+import zonas from '../data/zonas.json';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Ruta de esta página, arrancando con barra. Ejemplo: "/zonas/san-fernando" */
+  ruta?: string;
+  /** true en las páginas que no queremos que aparezcan en Google. */
+  sinIndexar?: boolean;
+}
+
+const { titulo, descripcion, ruta = '/', sinIndexar = false } = Astro.props;
+
+const canonical = new URL(ruta, Astro.site).href;
+const imagenOg = new URL('/og.png', Astro.site).href;
+
+// Las localidades donde trabaja, en texto plano. Salen del mismo archivo
+// que la sección "Zonas", así nunca quedan desincronizadas.
+const localidades = zonas.map((z) => z.nombre);
+
+// --- Datos estructurados para Google -------------------------------------
+// Le explican a Google que esto es un electricista, dónde trabaja y cuándo
+// atiende. Es un negocio que va a domicilio, así que NO lleva calle:
+// por eso no hay "streetAddress".
+const datosNegocio = {
+  '@context': 'https://schema.org',
+  '@type': 'Electrician',
+  '@id': `${Astro.site}#negocio`,
+  name: NEGOCIO.nombre,
+  url: Astro.site?.href,
+  telephone: NEGOCIO.telefono,
+  image: imagenOg,
+  description:
+    'Electricista matriculado en zona norte del Gran Buenos Aires. Instalaciones de obra nueva con planos, refacciones e iluminación de jardín y exteriores.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: NEGOCIO.localidad,
+    addressRegion: NEGOCIO.provincia,
+    addressCountry: NEGOCIO.pais,
+  },
+  areaServed: localidades.map((nombre) => ({
+    '@type': 'City',
+    name: nombre,
+  })),
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: NEGOCIO.horario.desde,
+      closes: NEGOCIO.horario.hasta,
+    },
+  ],
+  knowsLanguage: 'es-AR',
+  // Mientras no esté cargado el perfil de Google, esta línea no se escribe.
+  ...(NEGOCIO.perfilGoogle.startsWith('http')
+    ? { sameAs: [NEGOCIO.perfilGoogle] }
+    : {}),
+};
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonical} />
+    {sinIndexar && <meta name="robots" content="noindex, follow" />}
+
+    <meta name="theme-color" content="#141110" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Marca que el navegador tiene JavaScript. Las secciones solo
+         arrancan escondidas (para después encenderse) si esta marca está.
+         Sin JavaScript, la página se ve entera desde el primer momento. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <!-- Las fuentes se piden apenas empieza a cargar la página, para que el
+         texto grande del inicio aparezca cuanto antes. -->
+    <link
+      rel="preload"
+      href="/fonts/archivo-var-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/instrument-sans-var-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icono-180.png" />
+
+    <!-- Cómo se ve el sitio cuando alguien lo comparte por WhatsApp o redes -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content={NEGOCIO.nombre} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imagenOg} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content={`${NEGOCIO.nombre} — electricista matriculado en zona norte`}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={imagenOg} />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(datosNegocio)}
+    />
+
+    <!--
+      HUECO PARA MEDIR VISITAS (opcional, todavía sin activar).
+
+      Si algún día queremos saber cuánta gente entra, se descomenta una de
+      estas dos líneas. Las dos son sin cookies, así que el sitio NO necesita
+      el cartelito de "aceptar cookies".
+
+      <script defer data-domain="francoelectricista.com.ar" src="https://plausible.io/js/script.js"></script>
+      <script defer src="https://analytics.midominio.com/script.js" data-website-id="XXXX"></script>
+    -->
+  </head>
+
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <!-- Retícula técnica de fondo. Solo se dibuja en pantallas con mouse. -->
+    <div class="reticula" aria-hidden="true" data-reticula>
+      <div class="reticula__luz"></div>
+    </div>
+
+    <header class="masthead">
+      <div class="contenedor masthead__fila">
+        <a class="marca" href="/">
+          <span class="marca__nombre">Franco</span>
+          <span class="marca__oficio">Electricista</span>
+        </a>
+        <p class="masthead__dato utilitaria">
+          Electricista matriculado · {NEGOCIO.localidad}
+        </p>
+        <a
+          class="masthead__tel"
+          href={`tel:${NEGOCIO.telefonoLink}`}
+          data-contacto="telefono"
+          data-origen="masthead"
+        >
+          {NEGOCIO.telefono}
+        </a>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="pie">
+      <div class="contenedor pie__fila">
+        <p class="pie__marca">
+          <span class="pie__nombre">{NEGOCIO.nombre}</span>
+          <span class="pie__oficio">
+            Electricista matriculado · {NEGOCIO.localidad}, {NEGOCIO.provincia}
+          </span>
+        </p>
+        <p class="pie__tel">
+          <a
+            href={`tel:${NEGOCIO.telefonoLink}`}
+            data-contacto="telefono"
+            data-origen="pie">{NEGOCIO.telefono}</a
+          >
+        </p>
+        <p class="pie__anio">© {new Date().getFullYear()}</p>
+      </div>
+    </footer>
+
+    <style>
+      /* --- Barra de arriba ----------------------------------------------- */
+
+      .masthead {
+        position: relative;
+        z-index: var(--z-encabezado);
+        padding-block: var(--e-3);
+        border-block-end: 1px solid var(--borde);
+        background-color: var(--fondo);
+      }
+
+      .masthead__fila {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--e-4);
+        flex-wrap: wrap;
+      }
+
+      .marca {
+        display: inline-flex;
+        align-items: center;
+        /* Área táctil cómoda: nadie tiene que apuntar con precisión. */
+        min-height: var(--toque-minimo);
+        gap: 0.4em;
+        font-family: var(--fuente-display);
+        font-size: var(--t-menor);
+        font-weight: 700;
+        font-stretch: 92%;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .marca__nombre {
+        color: var(--texto);
+      }
+
+      .marca__oficio {
+        color: var(--ambar);
+        font-weight: 500;
+      }
+
+      .masthead__dato {
+        color: var(--texto-tenue);
+      }
+
+      .masthead__tel {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--toque-minimo);
+        font-family: var(--fuente-display);
+        font-size: var(--t-menor);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.02em;
+        color: var(--texto);
+        border-block-end: 1px solid var(--ambar-a32);
+        transition: color var(--transicion-ui), border-color var(--transicion-ui);
+      }
+
+      .masthead__tel:hover {
+        color: var(--ambar);
+        border-block-end-color: var(--ambar);
+      }
+
+      /* En pantallas chicas la línea del medio sobra: el dato ya se repite
+         más abajo en la página. */
+      @media (max-width: 46rem) {
+        .masthead__dato {
+          display: none;
+        }
+      }
+
+      /* --- Pie -------------------------------------------------------- */
+
+      .pie {
+        position: relative;
+        z-index: var(--z-contenido);
+        padding-block: var(--e-6);
+        border-block-start: 1px solid var(--borde);
+        background-color: var(--fondo);
+      }
+
+      .pie__fila {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--e-4);
+        font-size: var(--t-menor);
+        color: var(--texto-tenue);
+      }
+
+      .pie__marca {
+        display: flex;
+        flex-direction: column;
+        gap: var(--e-1);
+      }
+
+      .pie__nombre {
+        font-family: var(--fuente-display);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: var(--texto);
+      }
+
+      .pie__tel a {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--toque-minimo);
+        border-block-end: 1px solid var(--ambar-a32);
+        transition: color var(--transicion-ui);
+      }
+
+      .pie__tel a:hover {
+        color: var(--ambar);
+      }
+    </style>
+
+    <script>
+      // ====================================================================
+      // El único JavaScript del sitio. Sin librerías, sin dependencias.
+      // Hace tres cosas: la luz de los botones, la aparición de las
+      // secciones al hacer scroll y el brillo de la retícula de fondo.
+      // Si la persona pidió menos animaciones, no hace ninguna.
+      // ====================================================================
+
+      const menosMovimiento = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      );
+
+      /* --- 1. LA LUZ DE LOS BOTONES ------------------------------------
+         La luz nace en el punto exacto donde la persona tocó. Sube en
+         120ms y tarda 450ms en apagarse: por eso se siente física y no
+         digital. Solo se animan opacidad y escala. */
+
+      function encenderLuz(evento) {
+        const boton = evento.currentTarget;
+        if (menosMovimiento.matches) return;
+
+        const caja = boton.getBoundingClientRect();
+        const x = evento.clientX - caja.left;
+        const y = evento.clientY - caja.top;
+
+        boton.style.setProperty('--lx', `${x}px`);
+        boton.style.setProperty('--ly', `${y}px`);
+
+        // Reiniciar la animación si se toca dos veces seguidas.
+        boton.classList.remove('encendiendo');
+        void boton.offsetWidth;
+        boton.classList.add('encendiendo');
+
+        window.setTimeout(() => boton.classList.remove('encendiendo'), 700);
+
+        // El halo que queda en la sección, como si la luz hubiera
+        // calentado el aire. Máximo uno por interacción.
+        const seccion = boton.closest('.halo');
+        if (seccion) {
+          const cajaSeccion = seccion.getBoundingClientRect();
+          seccion.style.setProperty(
+            '--hx',
+            `${((evento.clientX - cajaSeccion.left) / cajaSeccion.width) * 100}%`
+          );
+          seccion.style.setProperty(
+            '--hy',
+            `${((evento.clientY - cajaSeccion.top) / cajaSeccion.height) * 100}%`
+          );
+          seccion.classList.add('halo--activo');
+          window.setTimeout(() => seccion.classList.remove('halo--activo'), 220);
+        }
+      }
+
+      document.querySelectorAll('[data-luz]').forEach((boton) => {
+        boton.addEventListener('pointerdown', encenderLuz);
+      });
+
+      /* --- 2. MEDICIÓN DE CLICKS EN WHATSAPP ---------------------------
+         Cada botón de WhatsApp avisa que lo tocaron. Hoy ese aviso no va
+         a ningún lado; el día que conectemos una herramienta de medición,
+         se engancha acá sin tocar el resto del sitio. */
+
+      document.querySelectorAll('[data-contacto]').forEach((enlace) => {
+        enlace.addEventListener('click', () => {
+          const detalle = {
+            canal: enlace.dataset.contacto, // "whatsapp" o "telefono"
+            origen: enlace.dataset.origen || 'sin-origen',
+          };
+          document.dispatchEvent(
+            new CustomEvent('contacto:click', { detail: detalle })
+          );
+          // Para conectar con Plausible o Umami, descomentar la que corresponda:
+          // window.plausible?.('Contacto', { props: detalle });
+          // window.umami?.track('contacto', detalle);
+        });
+      });
+
+      /* --- 3. LAS SECCIONES SE ENCIENDEN AL HACER SCROLL --------------- */
+
+      const paraRevelar = document.querySelectorAll('.revelar');
+
+      if (menosMovimiento.matches || !('IntersectionObserver' in window)) {
+        paraRevelar.forEach((el) => el.classList.add('encendido'));
+      } else {
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            entradas.forEach((entrada) => {
+              if (!entrada.isIntersecting) return;
+              entrada.target.classList.add('encendido');
+              observador.unobserve(entrada.target); // una sola vez por elemento
+            });
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
+        );
+        paraRevelar.forEach((el) => observador.observe(el));
+      }
+
+      /* --- 4. LA RETÍCULA DE FONDO SIGUE AL CURSOR --------------------- */
+
+      const reticula = document.querySelector('[data-reticula]');
+      const hayMouse = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+      if (reticula && hayMouse.matches && !menosMovimiento.matches) {
+        let posX = 0;
+        let posY = 0;
+        let pendiente = false;
+
+        window.addEventListener(
+          'pointermove',
+          (evento) => {
+            posX = evento.clientX;
+            posY = evento.clientY;
+            if (pendiente) return;
+            pendiente = true;
+            // Se actualiza una vez por cuadro de animación, no en cada
+            // movimiento del mouse: así no se traba nunca.
+            window.requestAnimationFrame(() => {
+              reticula.style.setProperty('--mx', `${posX}px`);
+              reticula.style.setProperty('--my', `${posY}px`);
+              reticula.classList.add('reticula--viva');
+              pendiente = false;
+            });
+          },
+          { passive: true }
+        );
+
+        document.addEventListener('pointerleave', () => {
+          reticula.classList.remove('reticula--viva');
+        });
+      }
+    </script>
+  </body>
+</html>

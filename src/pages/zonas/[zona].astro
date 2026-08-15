@@ -1,0 +1,208 @@
+---
+import Base from '../../layouts/Base.astro';
+import BotonLuz from '../../components/BotonLuz.astro';
+import Servicios from '../../components/Servicios.astro';
+import Matriculado from '../../components/Matriculado.astro';
+import Contacto from '../../components/Contacto.astro';
+import BarraMobile from '../../components/BarraMobile.astro';
+import zonas from '../../data/zonas.json';
+import { linkWhatsapp } from '../../data/sitio.js';
+
+/**
+ * PÁGINA DE ZONA
+ *
+ * Esta página se arma sola, una por cada zona del archivo zonas.json que
+ * tenga `"pagina": true`. Para sumar Nordelta, Benavídez, Pilar o Escobar
+ * NO hay que tocar este archivo: alcanza con cambiar el JSON.
+ * Está explicado en el README.
+ */
+
+export function getStaticPaths() {
+  return zonas
+    .filter((zona) => zona.pagina)
+    .map((zona) => ({
+      params: { zona: zona.slug },
+      props: { zona },
+    }));
+}
+
+const { zona } = Astro.props;
+
+// Si la zona todavía no tiene los textos escritos, se usan estos, que son
+// ciertos para cualquiera de las zonas donde Franco trabaja.
+const titulo = zona.titulo || `Electricista matriculado en ${zona.nombre}`;
+const descripcion =
+  zona.descripcion ||
+  `Electricista matriculado en ${zona.nombre}: instalaciones de obra nueva, refacciones e iluminación de jardín. Presupuesto por WhatsApp.`;
+const entrada =
+  zona.entrada ||
+  `Franco trabaja en ${zona.nombre} haciendo instalaciones eléctricas de obra nueva, refacciones e iluminación de jardín y exteriores.`;
+const detalle =
+  zona.detalle ||
+  `Las obras nuevas se hacen con planos y en conjunto con el estudio de arquitectura. En casas ya habitadas se hacen refacciones, colocación de artefactos y certificados eléctricos.`;
+
+const whatsapp = linkWhatsapp(`un trabajo en ${zona.nombre}`);
+const otrasZonas = zonas.filter((z) => z.slug !== zona.slug);
+---
+
+<Base
+  titulo={titulo}
+  descripcion={descripcion}
+  ruta={`/zonas/${zona.slug}/`}
+>
+  <main id="contenido">
+    <section class="zona-hero halo" aria-labelledby="t-zona">
+      <div class="contenedor">
+        <nav class="miga" aria-label="Ruta de navegación">
+          <a href="/">Inicio</a>
+          <span aria-hidden="true">/</span>
+          <span>{zona.nombre}</span>
+        </nav>
+
+        <p class="rotulo">Zona de trabajo</p>
+        <h1 class="titulo-1 zona-hero__titulo" id="t-zona">
+          Electricista matriculado en <span class="destacado">{zona.nombre}</span>
+        </h1>
+
+        <p class="guia zona-hero__entrada">{entrada}</p>
+        <p class="zona-hero__detalle">{detalle}</p>
+
+        <div class="zona-hero__acciones">
+          <BotonLuz
+            href={whatsapp}
+            variante="primario"
+            icono="whatsapp"
+            contacto="whatsapp"
+            origen={`zona-${zona.slug}`}
+          >
+            Pedir presupuesto por WhatsApp
+          </BotonLuz>
+          <BotonLuz href="/#obras" variante="secundario" icono="flecha" luz={false}>
+            Ver obras
+          </BotonLuz>
+        </div>
+      </div>
+    </section>
+
+    <Servicios />
+    <Matriculado />
+
+    <section class="seccion" aria-labelledby="t-otras">
+      <div class="contenedor revelar">
+        <p class="rotulo">Otras zonas</p>
+        <h2 class="titulo-2" id="t-otras">Dónde más trabaja</h2>
+        <ul class="otras">
+          {
+            otrasZonas.map((otra) => (
+              <li class="otras__item">
+                {otra.pagina ? (
+                  <a href={`/zonas/${otra.slug}/`}>{otra.nombre}</a>
+                ) : (
+                  <span>{otra.nombre}</span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <Contacto
+      tema={`un trabajo en ${zona.nombre}`}
+      origen={`contacto-${zona.slug}`}
+    />
+  </main>
+  <BarraMobile origen={`zona-${zona.slug}`} />
+</Base>
+
+<style>
+  .zona-hero {
+    position: relative;
+    z-index: var(--z-contenido);
+    padding-block: var(--e-9) var(--e-10);
+    /* Separa la portada de la zona del bloque de servicios que sigue. */
+    border-block-end: 1px solid var(--borde);
+  }
+
+  .miga {
+    display: flex;
+    align-items: center;
+    gap: var(--e-2);
+    margin-block-end: var(--e-6);
+    font-family: var(--fuente-display);
+    font-size: var(--t-etiqueta);
+    font-weight: 500;
+    letter-spacing: var(--tracking-etiqueta);
+    text-transform: uppercase;
+    color: var(--texto-tenue);
+  }
+
+  .miga a {
+    color: var(--ambar);
+  }
+
+  .miga a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .zona-hero__titulo {
+    max-width: 18ch;
+    margin-block-end: var(--e-6);
+  }
+
+  .destacado {
+    color: var(--ambar);
+  }
+
+  .zona-hero__entrada,
+  .zona-hero__detalle {
+    max-width: var(--ancho-texto);
+  }
+
+  .zona-hero__detalle {
+    margin-block-start: var(--e-5);
+    color: var(--texto-tenue);
+    text-wrap: pretty;
+  }
+
+  .zona-hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-4);
+    margin-block-start: var(--e-7);
+  }
+
+  @media (max-width: 30rem) {
+    .zona-hero__acciones > :global(.boton) {
+      width: 100%;
+    }
+  }
+
+  .otras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-3) var(--e-5);
+    margin-block-start: var(--e-6);
+    padding-block-start: var(--e-5);
+    border-block-start: 1px solid var(--borde);
+  }
+
+  .otras__item {
+    font-family: var(--fuente-display);
+    font-size: var(--t-titulo-3);
+    font-weight: 600;
+    font-stretch: var(--ancho-titular);
+    color: var(--texto-tenue);
+  }
+
+  .otras__item a {
+    color: var(--texto);
+    border-block-end: 1px solid var(--ambar-a32);
+    transition: color var(--transicion-ui);
+  }
+
+  .otras__item a:hover {
+    color: var(--ambar);
+  }
+</style>
