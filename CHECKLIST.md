@@ -95,9 +95,11 @@ Se cargan todos en `src/data/sitio.js`.
       Si todavía no hay uno del dominio, conviene crear
       `franco@francoelectricista.com.ar` cuando se compre el dominio: da
       mucha más seriedad que un Gmail suelto.
-- [ ] **Años de oficio** (`{AÑOS}` en el sitio). Aparece en dos lugares: en
-      la fila de datos de arriba de todo y en la sección "Cómo trabajo".
-      Es el dato que más confianza genera. Poné el número, nada más.
+- [x] **Años de oficio: cargado.** Dice "más de 25 años", en la fila de
+      datos de arriba de todo y en la sección "Cómo trabajo".
+      Se edita en `aniosOficio`. Ojo: ahí va **solo la cantidad**, porque
+      el sitio le agrega la palabra "años" al lado. Es decir "más de 25",
+      no "más de 25 años".
 - [ ] **En cuánto respondés** (`{COMPROMISO_RESPUESTA}` en el sitio).
       Va debajo de los botones de arriba de todo. Por ejemplo:
       "Respondo el mismo día".

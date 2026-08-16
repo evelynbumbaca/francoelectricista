@@ -32,8 +32,9 @@ export const NEGOCIO = {
   // TODO: falta el link del perfil de Google del negocio.
   perfilGoogle: '{URL_PERFIL_GOOGLE}',
 
-  // TODO: faltan los años de oficio de Franco.
-  aniosOficio: '{AÑOS}',
+  // Años de oficio. Se escribe tal cual va a leerse, porque el sitio le
+  // agrega la palabra "años" al lado: acá va "más de 25", no "25 años".
+  aniosOficio: 'más de 25',
 
   // TODO: falta confirmar con Franco en cuánto responde. Va debajo de los
   // botones de arriba de todo. Por ejemplo: 'Respondo el mismo día'.

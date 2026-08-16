@@ -172,10 +172,23 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
 
   .hero__figura {
     position: relative;
-    aspect-ratio: 16 / 8;
+    /* 16/9 y no 16/8: con la caja más alta entra el piso, que es donde
+       están los artefactos y el trabajo que se quiere mostrar. */
+    aspect-ratio: 16 / 9;
     margin-block-end: var(--e-7);
     overflow: hidden;
     border-radius: var(--radio-2);
+  }
+
+  /* IMPORTANTE: Picture envuelve la imagen en un <picture>, y ese elemento
+     tiene que ocupar toda la figura. Si no, la imagen no encuentra contra
+     qué calcular su alto, se queda con su alto natural y termina
+     desbordando: en vez de recortarse por el centro, se corta todo abajo
+     y desaparece el piso. */
+  .hero__figura :global(picture) {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .hero__hueco,
@@ -183,6 +196,9 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* El recorte se corre hacia abajo: arriba sobra cielo, abajo está el
+       césped con los artefactos encendidos. */
+    object-position: 50% 70%;
   }
 
   @media (max-width: 46rem) {
