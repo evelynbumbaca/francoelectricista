@@ -131,8 +131,11 @@ Consejos para las fotos:
   caras, cuatro con una de relleno se ven baratas.
 - La de arriba de todo (`hero.jpg`) **no es un retrato**: va una obra
   terminada o un jardín iluminado. El retrato va abajo, en "Sobre Franco".
-- Sirven `.jpg`, `.png` y `.webp`. Si tu archivo es `.png`, cambiale el
-  nombre a `hero.png` y listo, lo encuentra igual.
+- Sirven `.jpg`, `.png`, `.webp` y `.avif`. **La extensión no importa**:
+  si el archivo se llama `hero.png` o `hero.webp`, el sitio lo encuentra
+  igual. Lo que tiene que coincidir es el nombre, no el final.
+- **Para cambiar una foto, copiá la nueva encima con el mismo nombre.**
+  No hay que tocar nada de código.
 
 ---
 

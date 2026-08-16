@@ -8,25 +8,41 @@ en el lugar exacto donde va. Cuando lo cargues, el cartel desaparece solo.
 
 ---
 
-## 1. Fotos — lo más importante de todo
+## 1. Fotos — hay puestas, pero son provisorias
 
-Sin fotos el sitio no convence a nadie, y menos a un estudio de
-arquitectura. Es lo primero que hay que resolver.
+**Estado: las nueve fotos están cargadas y el sitio ya se ve completo.**
+Pero son fotos de relleno, no trabajos de Franco. Sirven para ver cómo
+queda el sitio y para mostrárselo a él, **no para publicar**.
 
-Las fotos van copiadas en `src/images/`, con estos nombres exactos:
+Cómo se dieron cuenta: las nueve tienen exactamente el mismo tamaño
+(1536x1024), no traen ningún dato de cámara, fecha ni lugar, y el plano de
+la foto de obra 4 no es un plano de verdad —las líneas no cierran y no
+tiene cotas ni rótulo—. Son imágenes generadas.
 
-- [ ] **`hero.jpg`** — la foto grande de arriba de todo.
+**Por qué importa igual que se vean bien:** el público principal del sitio
+son estudios de arquitectura, y es gente que mira fotos de obra todo el
+día. Una foto que no cierra la detectan enseguida, y el costo no es que no
+les guste: es que dejan de creer el resto del sitio, incluida la matrícula.
+
+Hay que reemplazarlas por fotos reales de Franco, con estos nombres, en
+`src/images/` (el archivo nuevo pisa al viejo, no hay que tocar código):
+
+- [ ] **`hero.webp`** — la foto grande de arriba de todo.
       Obra terminada o jardín iluminado de noche. **Apaisada. No un
       retrato.** Es la primera imagen que alguien ve del trabajo de Franco.
-- [ ] **`iluminacion-1.jpg`** — jardín completo de noche, árboles
+- [ ] **`iluminacion-1.webp`** — jardín completo de noche, árboles
       iluminados desde abajo. **Que sea la mejor de todas: es la que se
       muestra más grande.**
-- [ ] **`iluminacion-2.jpg`** — detalle de un artefacto embutido en piso o
+- [ ] **`iluminacion-2.webp`** — detalle de un artefacto embutido en piso o
       cantero.
-- [ ] **`iluminacion-3.jpg`** — camino, escalera, borde de pileta o galería
+- [ ] **`iluminacion-3.webp`** — camino, escalera, borde de pileta o galería
       con luz a ras del piso.
-- [ ] **`retrato.jpg`** — Franco. En la obra y con ropa de trabajo funciona
-      mejor que una foto de estudio.
+- [ ] **`obra-1.webp` a `obra-4.webp`** — una foto por cada obra cargada.
+- [ ] **`retrato.webp`** — **la más urgente de todas.** Hoy hay una cara que
+      no es la de Franco, arriba del texto "Soy Franco, electricista
+      matriculado". Con las fotos de jardín se puede discutir; con esta no:
+      es la cara de otra persona presentada como él. Alcanza una foto
+      tomada con el celular, en la obra y con ropa de trabajo.
 
 > **La galería son tres fotos y no más.** Tres fotos buenas se ven caras;
 > cuatro con una de relleno se ven baratas, y este es el bloque que
@@ -38,6 +54,11 @@ Las fotos van copiadas en `src/images/`, con estos nombres exactos:
 
 > **Tamaño:** cuanto más grandes, mejor. Al menos 1600 píxeles de ancho.
 > El sitio las achica y las optimiza solo.
+
+> **Mientras tanto, el sitio no está en Google.** El archivo
+> `public/_headers` lo mantiene fuera de las búsquedas mientras viva en
+> la dirección de pruebas. No conectar el dominio propio hasta que estén
+> las fotos reales.
 
 ---
 
@@ -153,10 +174,13 @@ importa más que el sitio mismo.** Es gratis.
       Cada foto tiene una descripción escrita de antemano; cuando estén las
       fotos reales, conviene ajustarla a lo que realmente se ve.
       (En obras se edita en `obras.json`, campo `alt`.)
-- [ ] **Volver a medir la velocidad después de cargar las fotos.**
-      Hoy el sitio abre en 0,6 segundos con señal 4G lenta. La foto de
-      arriba de todo va a ser lo más pesado: conviene que pese menos de
-      300 KB una vez subida.
+- [x] **Velocidad con las fotos puestas: medida y en orden.**
+      Con señal 4G lenta el sitio abre en 1,4 segundos en pantalla grande
+      y en 0,7 en celular (el límite que nos pusimos era 2 segundos).
+      La página completa pesa 275 KB. La foto de arriba se sirve en AVIF,
+      que pesa menos de la mitad que el formato anterior.
+      **Volver a medir cuando entren las fotos reales**, que van a pesar
+      más: con `npm run build` y mirando el tamaño de `dist/_astro/`.
 
 ---
 

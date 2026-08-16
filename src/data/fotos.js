@@ -40,9 +40,13 @@ export function buscarFoto(nombre) {
   const buscado = String(nombre).trim().toLowerCase();
   if (porNombre.has(buscado)) return porNombre.get(buscado);
 
-  // Si escribieron "hero" sin la extensión, se prueba con las habituales.
+  // La extensión no importa: si el sitio busca "hero.jpg" y el archivo que
+  // hay se llama "hero.webp" o "hero.png", lo encuentra igual. Así nadie
+  // tiene que renombrar una foto para que aparezca. También funciona si en
+  // obras.json se escribe el nombre sin extensión.
+  const sinExtension = buscado.replace(/\.[a-z0-9]+$/, '');
   for (const extension of ['jpg', 'jpeg', 'png', 'webp', 'avif']) {
-    const conExtension = `${buscado}.${extension}`;
+    const conExtension = `${sinExtension}.${extension}`;
     if (porNombre.has(conExtension)) return porNombre.get(conExtension);
   }
   return null;
