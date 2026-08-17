@@ -11,11 +11,21 @@ Copiá los archivos dentro de esta misma carpeta, con estos nombres:
   iluminacion-3.jpg  Son tres y no más: tres fotos buenas se ven caras,
                      cuatro con una de relleno se ven baratas.
 
-  retrato.jpg        La foto de Franco, para la sección "Sobre Franco".
+  servicio-obra.jpg  Bloque "Obra y proyecto", dentro de "Qué hago".
+                     Interior de una obra nueva.
 
-Para las fotos de obras: poné el archivo acá con el nombre que quieras
-(por ejemplo obra-nordelta.jpg) y después escribí ese mismo nombre en el
-archivo src/data/obras.json. Está explicado en el README.md.
+  servicio-instalaciones.jpg
+                     Bloque "Instalaciones y reformas", dentro de "Qué
+                     hago". Un trabajo en una casa habitada.
+
+  matriculado.jpg    Sección "Por qué un matriculado". Planos, un
+                     certificado o el instrumento de medición.
+
+  retrato.jpg        La foto de Franco, para la sección "Cómo trabajo".
+
+Las dos fotos de "Qué hago" se pueden cambiar de nombre: si lo hacés,
+escribí el nombre nuevo en el archivo src/data/servicios.json, en la línea
+"foto". Está explicado en el README.md.
 
 El sitio achica y optimiza las fotos solo. Subilas grandes, sin miedo:
 al menos 1600 pixeles de ancho.

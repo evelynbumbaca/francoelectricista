@@ -1,4 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import { buscarFoto } from '../data/fotos.js';
+
+const foto = buscarFoto('matriculado.webp');
+
 // Los tres trámites que solo puede firmar un matriculado. Le habla al
 // arquitecto, que ya lo sabe, y le explica al dueño de casa, que no.
 // No van numerados: son tres cosas distintas, no tres pasos en orden.
@@ -32,6 +37,21 @@ const puntos = [
       </p>
     </div>
 
+    {
+      foto && (
+        <figure class="matriculado__figura revelar">
+          <Image
+            class="matriculado__imagen"
+            src={foto}
+            alt="Planos eléctricos desplegados sobre una mesa, iluminados con luz cálida."
+            widths={[640, 1000, 1400]}
+            sizes="(min-width: 60rem) 1144px, 100vw"
+            loading="lazy"
+          />
+        </figure>
+      )
+    }
+
     <ul class="matriculado__puntos revelar revelar--secuencia">
       {
         puntos.map((punto, i) => (
@@ -60,6 +80,29 @@ const puntos = [
 
   .matriculado__intro {
     margin-block-start: var(--e-5);
+  }
+
+  /* La foto de los planos: es apaisada y baja a propósito, para que sirva
+     de respiro entre la explicación y los tres trámites, sin robarles la
+     atención. */
+  .matriculado__figura {
+    margin-block-start: var(--e-8);
+    aspect-ratio: 16 / 6;
+    overflow: hidden;
+    border-radius: var(--radio-2);
+  }
+
+  .matriculado__imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 55%;
+  }
+
+  @media (max-width: 46rem) {
+    .matriculado__figura {
+      aspect-ratio: 3 / 2;
+    }
   }
 
   .matriculado__puntos {

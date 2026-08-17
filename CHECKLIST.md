@@ -37,7 +37,13 @@ Hay que reemplazarlas por fotos reales de Franco, con estos nombres, en
       cantero.
 - [ ] **`iluminacion-3.webp`** — camino, escalera, borde de pileta o galería
       con luz a ras del piso.
-- [ ] **`obra-1.webp` a `obra-4.webp`** — una foto por cada obra cargada.
+- [ ] **`servicio-obra.webp`** — interior de una obra nueva, para el
+      bloque «Obra y proyecto» de «Qué hago».
+- [ ] **`servicio-instalaciones.webp`** — un trabajo en una casa habitada
+      (artefacto colocado, tira de luz, tablero nuevo), para el bloque
+      «Instalaciones y reformas».
+- [ ] **`matriculado.webp`** — planos, un certificado o el instrumento de
+      medición, para «Por qué un matriculado».
 - [ ] **`retrato.webp`** — **la más urgente de todas.** Hoy hay una cara que
       no es la de Franco, arriba del texto "Soy Franco, electricista
       matriculado". Con las fotos de jardín se puede discutir; con esta no:
@@ -62,32 +68,7 @@ Hay que reemplazarlas por fotos reales de Franco, con estos nombres, en
 
 ---
 
-## 2. Obras realizadas
-
-En el sitio hay **cuatro obras de ejemplo**, marcadas con el cartel "Ejemplo
-a completar". Están ahí como molde: hay que reemplazarlas por obras reales.
-
-Se cargan en `src/data/obras.json`. Está explicado paso a paso en el
-`README.md`.
-
-- [ ] Obra 1 — conviene una **obra nueva** en barrio privado, con el nombre
-      del estudio de arquitectura si se puede nombrar.
-- [ ] Obra 2 — conviene un caso de **iluminación de jardín** (es lo que
-      mejor se ve en foto y lo que más se busca).
-- [ ] Obra 3 — conviene una **refacción**, para mostrar que también se
-      trabaja sobre casas ya habitadas.
-- [ ] Obra 4 — conviene un trabajo con **certificado o plano**, que es lo
-      que le interesa ver a un arquitecto.
-
-De cada obra hace falta: barrio, tipo de trabajo, una línea de descripción y
-una foto.
-
-> **Importante:** si un cliente pidió no ser nombrado, poné solo el barrio y
-> el tipo de obra. Nunca inventar un nombre.
-
----
-
-## 3. Datos de contacto que faltan
+## 2. Datos de contacto que faltan
 
 Se cargan todos en `src/data/sitio.js`.
 
@@ -107,13 +88,13 @@ Se cargan todos en `src/data/sitio.js`.
       siempre: prometer una respuesta rápida y no cumplirla es peor que no
       prometer nada.
 - [ ] **Link del perfil de Google del negocio** (`{URL_PERFIL_GOOGLE}`).
-      Ver el punto 4.
+      Ver el punto 3.
 
 Ya están cargados y verificados: teléfono, WhatsApp, horario y localidad.
 
 ---
 
-## 4. Perfil de Google del negocio
+## 3. Perfil de Google del negocio
 
 Esto es lo que hace que Franco aparezca en el mapa cuando alguien busca
 "electricista en San Fernando". **Para el público que busca en Google, esto
@@ -137,7 +118,7 @@ importa más que el sitio mismo.** Es gratis.
 
 ---
 
-## 5. Dominio y publicación
+## 4. Dominio y publicación
 
 - [ ] Comprar **francoelectricista.com.ar** (se compra en
       [nic.ar](https://nic.ar); cuesta muy poco por año)
@@ -164,7 +145,7 @@ importa más que el sitio mismo.** Es gratis.
 
 ---
 
-## 6. Detalles que quedan pendientes
+## 5. Detalles que quedan pendientes
 
 - [ ] **Imagen para compartir en redes** (`public/og.png`).
       Ahora hay una hecha con tipografía, que funciona bien. Cuando haya
@@ -174,7 +155,7 @@ importa más que el sitio mismo.** Es gratis.
 - [ ] **Revisar los textos alternativos de las fotos** una vez cargadas.
       Cada foto tiene una descripción escrita de antemano; cuando estén las
       fotos reales, conviene ajustarla a lo que realmente se ve.
-      (En obras se edita en `obras.json`, campo `alt`.)
+      (Las dos de «Qué hago» se editan en `servicios.json`, campo `alt`.)
 - [x] **Velocidad con las fotos puestas: medida y en orden.**
       Con señal 4G lenta el sitio abre en 1,3 segundos en pantalla grande
       y en 0,6 en celular (el límite que nos pusimos era 2 segundos).

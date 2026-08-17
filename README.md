@@ -3,8 +3,8 @@
 Este es el sitio web de Franco, electricista matriculado de zona norte.
 
 Este archivo está escrito para que lo pueda usar **cualquiera, sin saber
-programar**. Explica cómo cambiar los textos, cómo sumar una obra y cómo
-sumar una zona nueva. Si algo no está acá, no lo toques y preguntá.
+programar**. Explica cómo cambiar los textos, cómo cambiar las fotos y
+cómo sumar una zona nueva. Si algo no está acá, no lo toques y preguntá.
 
 ---
 
@@ -112,13 +112,16 @@ importante: si falta una comilla, el sitio no arranca.
 Todas las fotos van en la carpeta **`src/images/`**. Nada más que copiar el
 archivo ahí adentro, con el nombre exacto que corresponde:
 
-| Nombre del archivo  | Dónde aparece                                        |
-| ------------------- | ---------------------------------------------------- |
-| `hero.jpg`          | La foto grande de arriba de todo                     |
-| `iluminacion-1.jpg` | Galería de iluminación de jardín (la más grande)     |
-| `iluminacion-2.jpg` | Galería de iluminación                                |
-| `iluminacion-3.jpg` | Galería de iluminación                                |
-| `retrato.jpg`       | La foto de Franco, en la sección "Sobre Franco"      |
+| Nombre del archivo           | Dónde aparece                                   |
+| ---------------------------- | ----------------------------------------------- |
+| `hero.jpg`                   | Fondo de la primera pantalla                    |
+| `iluminacion-1.jpg`          | Galería de iluminación de jardín (la más grande)|
+| `iluminacion-2.jpg`          | Galería de iluminación                          |
+| `iluminacion-3.jpg`          | Galería de iluminación                          |
+| `servicio-obra.jpg`          | «Qué hago» → Obra y proyecto                    |
+| `servicio-instalaciones.jpg` | «Qué hago» → Instalaciones y reformas           |
+| `matriculado.jpg`            | «Por qué un matriculado»                        |
+| `retrato.jpg`                | La foto de Franco, en «Cómo trabajo»            |
 
 **No hace falta tocar nada más.** Copiás la foto con ese nombre y el cartel
 naranja desaparece solo.
@@ -145,45 +148,24 @@ Consejos para las fotos:
 
 ---
 
-## Sumar una obra
+## Cambiar las fotos de «Qué hago»
 
-Las obras están en el archivo **`src/data/obras.json`**.
-
-Cada obra es un bloque entre llaves `{ }`, separado del siguiente por una
-coma. Así se ve una obra ya cargada:
+Cada uno de los dos bloques de esa sección tiene su foto. Se eligen en
+**`src/data/servicios.json`**, en la línea `foto`:
 
 ```json
-{
-  "id": "obra-1",
-  "pendiente": false,
-  "barrio": "Nordelta",
-  "tipo": "Obra nueva",
-  "descripcion": "Instalación completa de una casa de cuatro ambientes, con tablero, circuitos separados e iluminación de jardín. Junto al estudio Tal y Tal.",
-  "foto": "obra-nordelta.jpg",
-  "alt": "Living de una casa nueva con la iluminación embutida encendida."
-}
+"foto": "servicio-obra.webp",
+"alt": "Interior de una casa nueva sin amueblar, con la iluminación encendida.",
 ```
 
-Qué va en cada línea:
+Para cambiarlas hay dos caminos. El más simple: copiar la foto nueva en
+`src/images/` **con el mismo nombre** que ya está escrito ahí, y listo. El
+otro: poner el archivo con el nombre que quieras y escribir ese nombre en
+la línea `foto`.
 
-- **`id`**: un nombre corto para identificarla. No se ve en el sitio.
-  Que no se repita con otra.
-- **`pendiente`**: poné `false` cuando la obra ya esté cargada de verdad.
-  Mientras diga `true`, muestra el cartel de "Ejemplo a completar".
-- **`barrio`**: dónde fue. Aparece arriba, en naranja.
-- **`tipo`**: qué clase de trabajo fue. Es el título de la obra.
-- **`descripcion`**: una línea contando qué incluyó. Corta y concreta.
-  Los números y los nombres de estudios suman mucho.
-- **`foto`**: el nombre del archivo de foto, que tenés que haber copiado
-  antes en `src/images/`.
-- **`alt`**: una descripción de lo que se ve en la foto. Sirve para Google
-  y para las personas que no pueden ver la imagen.
-
-**Para agregar otra obra**, copiá un bloque entero (desde `{` hasta `}`),
-pegalo abajo, y **acordate de poner una coma entre bloque y bloque**. El
-último bloque NO lleva coma.
-
-Van bien entre 3 y 6 obras. Más que eso cansa.
+La línea `alt` describe lo que se ve en la foto. Sirve para Google y para
+quien no puede ver la imagen, así que conviene actualizarla si la foto
+cambia.
 
 ---
 
@@ -259,10 +241,10 @@ así que **si no estás cómodo, pedile a alguien que lo haga**. El texto está
 siempre entre `>` y `<`, así:
 
 ```html
-<h2 class="titulo-2">Obras realizadas</h2>
+<h2 class="titulo-2">Qué hago</h2>
 ```
 
-Se cambia solamente `Obras realizadas`. Todo lo demás se deja igual.
+Se cambia solamente `Qué hago`. Todo lo demás se deja igual.
 
 ---
 

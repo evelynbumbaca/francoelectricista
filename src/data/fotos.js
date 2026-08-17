@@ -9,13 +9,14 @@
  * No hay que tocar nada de código: alcanza con copiar el archivo.
  *
  * Nombres que el sitio busca:
- *   hero.jpg              → la foto grande de arriba de todo
- *   iluminacion-1.jpg     → galería de iluminación de jardín (1 a 4)
+ *   hero.jpg              → fondo de la primera pantalla
+ *   iluminacion-1.jpg     → galería de iluminación de jardín (son tres)
  *   iluminacion-2.jpg
  *   iluminacion-3.jpg
- *   iluminacion-4.jpg
- *   retrato.jpg           → la foto de Franco, en "Sobre Franco"
- *   (las obras usan el nombre que se escriba en obras.json)
+ *   servicio-obra.jpg     → "Qué hago", bloque de obra y proyecto
+ *   servicio-instalaciones.jpg → "Qué hago", bloque de instalaciones
+ *   matriculado.jpg       → sección "Por qué un matriculado"
+ *   retrato.jpg           → la foto de Franco, en "Cómo trabajo"
  *
  * Sirven .jpg, .jpeg, .png, .webp y .avif.
  */
@@ -43,7 +44,7 @@ export function buscarFoto(nombre) {
   // La extensión no importa: si el sitio busca "hero.jpg" y el archivo que
   // hay se llama "hero.webp" o "hero.png", lo encuentra igual. Así nadie
   // tiene que renombrar una foto para que aparezca. También funciona si en
-  // obras.json se escribe el nombre sin extensión.
+  // servicios.json se escribe el nombre sin extensión.
   const sinExtension = buscado.replace(/\.[a-z0-9]+$/, '');
   for (const extension of ['jpg', 'jpeg', 'png', 'webp', 'avif']) {
     const conExtension = `${sinExtension}.${extension}`;

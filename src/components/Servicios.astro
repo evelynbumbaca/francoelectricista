@@ -1,29 +1,67 @@
 ---
+import { Image } from 'astro:assets';
 import servicios from '../data/servicios.json';
+import { buscarFoto } from '../data/fotos.js';
+
+/**
+ * QUÉ HAGO
+ *
+ * Cada grupo de servicios es una banda de ancho completo: la foto de un
+ * lado y la lista del otro, alternando el orden entre una banda y otra.
+ * Así el bloque tiene peso visual sin ocupar más alto que dos columnas de
+ * texto, y cada foto queda al lado del trabajo que muestra.
+ */
+
+const grupos = servicios.map((grupo) => ({
+  ...grupo,
+  imagen: buscarFoto(grupo.foto),
+}));
 ---
 
 <section class="seccion" id="servicios" aria-labelledby="t-servicios">
   <div class="contenedor">
-    <div class="revelar">
+    <div class="revelar servicios__encabezado">
       <p class="rotulo">Servicios</p>
       <h2 class="titulo-2" id="t-servicios">Qué hago</h2>
     </div>
 
-    <div class="servicios__columnas revelar revelar--secuencia">
+    <div class="servicios__bandas">
       {
-        servicios.map((columna, i) => (
-          <div class="columna" style={`--i:${i}`}>
-            <h3 class="titulo-3 columna__titulo">{columna.grupo}</h3>
-            <p class="columna__resumen">{columna.resumen}</p>
+        grupos.map((grupo, i) => (
+          <div
+            class:list={['banda', 'revelar', i % 2 === 1 && 'banda--invertida']}
+          >
+            <figure class:list={['banda__figura', !grupo.imagen && 'hueco-foto']}>
+              {grupo.imagen ? (
+                <Image
+                  class="banda__imagen"
+                  src={grupo.imagen}
+                  alt={grupo.alt}
+                  widths={[480, 760, 1040]}
+                  sizes="(min-width: 60rem) 45vw, 100vw"
+                  loading="lazy"
+                />
+              ) : (
+                <>
+                  <p class="hueco-foto__etiqueta">{'{FOTO DEL SERVICIO}'}</p>
+                  <p class="hueco-foto__nota">{grupo.alt}</p>
+                </>
+              )}
+            </figure>
 
-            <ul class="columna__lista">
-              {columna.items.map((item) => (
-                <li class="servicio">
-                  <h4 class="servicio__titulo">{item.titulo}</h4>
-                  <p class="servicio__detalle">{item.detalle}</p>
-                </li>
-              ))}
-            </ul>
+            <div class="banda__texto">
+              <h3 class="titulo-3 banda__titulo">{grupo.grupo}</h3>
+              <p class="banda__resumen">{grupo.resumen}</p>
+
+              <ul class="banda__lista">
+                {grupo.items.map((item) => (
+                  <li class="servicio">
+                    <h4 class="servicio__titulo">{item.titulo}</h4>
+                    <p class="servicio__detalle">{item.detalle}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))
       }
@@ -32,26 +70,84 @@ import servicios from '../data/servicios.json';
 </section>
 
 <style>
-  .servicios__columnas {
-    display: grid;
-    gap: var(--e-8);
-    margin-block-start: var(--e-8);
+  .servicios__encabezado {
+    margin-block-end: var(--e-8);
   }
 
-  @media (min-width: 52rem) {
-    .servicios__columnas {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  .servicios__bandas {
+    display: grid;
+    gap: var(--e-9);
+  }
+
+  .banda {
+    display: grid;
+    gap: var(--e-6);
+    align-items: start;
+  }
+
+  /* Sin esto, la foto no deja encoger su columna y se monta sobre el texto:
+     los elementos de una grilla, por defecto, no achican por debajo del
+     tamaño natural de lo que tienen adentro. */
+  .banda__figura,
+  .banda__texto {
+    min-width: 0;
+  }
+
+  .banda__figura {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radio-2);
+  }
+
+  .banda__imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* OJO con el orden: esta media query tiene que ir DESPUÉS de las reglas
+     de arriba. Tienen la misma especificidad, así que si quedara antes,
+     la proporción fija de acá arriba le ganaría al aspect-ratio: auto de
+     abajo, y la foto se estiraría por encima del texto. */
+  @media (min-width: 60rem) {
+    .banda {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
       gap: var(--e-9);
+      /* stretch y no center: la foto acompaña el alto de la lista en lugar
+         de quedar flotando en el medio. Es lo que le da presencia al
+         bloque sin ocupar más lugar en la página. */
+      align-items: stretch;
+    }
+
+    .banda__figura {
+      /* Se suelta la proporción fija para que mande el alto de la banda. */
+      aspect-ratio: auto;
+      min-height: 26rem;
+    }
+
+    /* La segunda banda invierte el orden: la foto pasa a la derecha.
+       Se hace con el orden de la grilla y no cambiando el HTML, así el
+       texto sigue leyéndose en el orden correcto para un lector de
+       pantalla y para Google. */
+    .banda--invertida .banda__figura {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .banda--invertida .banda__texto {
+      grid-column: 1;
+      grid-row: 1;
     }
   }
 
-  .columna__titulo {
+  .banda__titulo {
     padding-block-end: var(--e-4);
     border-block-end: 1px solid var(--ambar-a32);
   }
 
-  .columna__resumen {
-    max-width: 46ch;
+  .banda__resumen {
+    max-width: 48ch;
     margin-block-start: var(--e-4);
     font-size: var(--t-menor);
     line-height: 1.55;
@@ -59,7 +155,7 @@ import servicios from '../data/servicios.json';
     text-wrap: pretty;
   }
 
-  .columna__lista {
+  .banda__lista {
     display: grid;
     gap: var(--e-5);
     margin-block-start: var(--e-6);

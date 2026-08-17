@@ -2,6 +2,8 @@
   {
     "grupo": "Obra y proyecto",
     "resumen": "El trabajo que se hace con planos sobre la mesa, junto al estudio de arquitectura, antes de que la casa exista.",
+    "foto": "servicio-obra.webp",
+    "alt": "Interior de una casa nueva sin amueblar, con la iluminación embutida del cielorraso encendida.",
     "items": [
       {
         "titulo": "Electricidad de obra",
@@ -24,6 +26,8 @@
   {
     "grupo": "Instalaciones y reformas",
     "resumen": "Lo que pasa en una casa que ya está habitada, con la instalación andando y gente viviendo adentro.",
+    "foto": "servicio-instalaciones.webp",
+    "alt": "Cocina en uso con una tira de luz encendida bajo los muebles altos.",
     "items": [
       {
         "titulo": "Refacciones e instalaciones",
