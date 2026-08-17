@@ -36,13 +36,40 @@ const fotos = [
 ---
 
 <section class="iluminacion halo" id="iluminacion" aria-labelledby="t-iluminacion">
-  <div class="contenedor">
-    <div class="iluminacion__encabezado revelar">
-      <p class="rotulo">Servicio destacado</p>
+  <div class="contenedor iluminacion__grilla revelar">
+    <p class="rotulo iluminacion__rotulo">Servicio destacado</p>
+
+    {/* Columna izquierda: el título y, debajo, la foto principal. La foto
+        crece hasta llenar lo que sobra, así no queda un hueco abajo del
+        título ni la galería queda como un bloque aparte. */}
+    <div class="iluminacion__izquierda">
       <h2 class="titulo-2" id="t-iluminacion">
         Iluminación de jardín<br />y exteriores
       </h2>
 
+      <figure
+        class:list={['ilum-foto', 'ilum-foto--grande', !fotos[0].imagen && 'hueco-foto']}
+      >
+        {fotos[0].imagen ? (
+          <Image
+            class="ilum-foto__imagen"
+            src={fotos[0].imagen}
+            alt={fotos[0].alt}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 60rem) 45vw, 100vw"
+            loading="lazy"
+          />
+        ) : (
+          <Fragment>
+            <p class="hueco-foto__etiqueta">{fotos[0].etiqueta}</p>
+            <p class="hueco-foto__nota">{fotos[0].nota}</p>
+          </Fragment>
+        )}
+      </figure>
+    </div>
+
+    {/* Columna derecha: el texto y, debajo, las dos fotos chicas. */}
+    <div class="iluminacion__derecha">
       <div class="iluminacion__texto">
         <p class="guia">
           El jardín se usa de noche. Un proyecto de iluminación exterior define
@@ -74,39 +101,28 @@ const fotos = [
           Consultar por iluminación de jardín
         </BotonLuz>
       </div>
-    </div>
-  </div>
 
-  <div class="contenedor">
-    <div class="galeria revelar revelar--secuencia">
-      {
-        fotos.map((foto, i) => (
-          <figure
-            class:list={[
-              'galeria__item',
-              foto.grande && 'galeria__item--grande',
-              !foto.imagen && 'hueco-foto',
-            ]}
-            style={`--i:${i}`}
-          >
+      <div class="iluminacion__chicas">
+        {fotos.slice(1).map((foto) => (
+          <figure class:list={['ilum-foto', !foto.imagen && 'hueco-foto']}>
             {foto.imagen ? (
               <Image
-                class="galeria__imagen"
+                class="ilum-foto__imagen"
                 src={foto.imagen}
                 alt={foto.alt}
-                widths={[480, 800, 1200]}
-                sizes="(min-width: 46rem) 50vw, 100vw"
+                widths={[360, 600, 900]}
+                sizes="(min-width: 60rem) 26vw, 100vw"
                 loading="lazy"
               />
             ) : (
-              <>
+              <Fragment>
                 <p class="hueco-foto__etiqueta">{foto.etiqueta}</p>
                 <p class="hueco-foto__nota">{foto.nota}</p>
-              </>
+              </Fragment>
             )}
           </figure>
-        ))
-      }
+        ))}
+      </div>
     </div>
   </div>
 </section>
@@ -120,13 +136,21 @@ const fotos = [
     border-block: 1px solid var(--borde);
   }
 
-  .iluminacion__encabezado {
-    margin-block-end: var(--e-8);
+  /* En celular es una sola columna y todo va apilado. */
+  .iluminacion__grilla {
+    display: grid;
+    gap: var(--e-6);
+  }
+
+  .iluminacion__izquierda,
+  .iluminacion__derecha {
+    display: grid;
+    gap: var(--e-6);
+    min-width: 0;
   }
 
   .iluminacion__texto {
     max-width: var(--ancho-texto);
-    margin-block-start: var(--e-6);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -136,25 +160,6 @@ const fotos = [
 
   .iluminacion__texto .guia {
     color: var(--texto);
-  }
-
-  /* En pantalla ancha, el título a la izquierda y el texto a la derecha:
-     le da al bloque el peso visual que merece por ser el servicio estrella. */
-  @media (min-width: 60rem) {
-    .iluminacion__encabezado {
-      display: grid;
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-      column-gap: var(--e-9);
-      align-items: start;
-    }
-
-    .iluminacion__encabezado .rotulo {
-      grid-column: 1 / -1;
-    }
-
-    .iluminacion__texto {
-      margin-block-start: 0;
-    }
   }
 
   .iluminacion__lista {
@@ -181,41 +186,65 @@ const fotos = [
     transform: translateY(-2px);
   }
 
-  /* --- La galería -------------------------------------------------------
-     Mosaico: una foto grande a la izquierda y dos apiladas a la derecha.
-     No es una grilla pareja de cuadraditos, justamente para no parecer
-     una plantilla. */
+  /* --- Las fotos --------------------------------------------------------- */
 
-  .galeria {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--e-4);
-  }
-
-  .galeria__item {
+  .ilum-foto {
     position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     border-radius: var(--radio-2);
+    min-width: 0;
   }
 
-  .galeria__imagen {
+  .ilum-foto__imagen {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  @media (min-width: 46rem) {
-    .galeria {
-      grid-template-columns: repeat(3, 1fr);
+  .iluminacion__chicas {
+    display: grid;
+    gap: var(--e-4);
+  }
+
+  /* --- Pantalla ancha ----------------------------------------------------
+     Dos columnas. A la izquierda el título y, abajo, la foto principal, que
+     se estira hasta llenar el alto que deja la columna de la derecha. Antes
+     la foto vivía en una galería aparte y la columna del título quedaba con
+     440px de aire abajo, con la galería colgando como un bloque suelto. */
+
+  @media (min-width: 60rem) {
+    .iluminacion__grilla {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: var(--e-9);
+      row-gap: var(--e-7);
+      align-items: stretch;
     }
 
-    /* La grande ocupa dos columnas y las dos filas: es la que manda.
-       Las otras dos quedan apiladas en la tercera columna, sin huecos. */
-    .galeria__item--grande {
-      grid-column: span 2;
-      grid-row: span 2;
+    .iluminacion__rotulo {
+      grid-column: 1 / -1;
+      margin-block-end: 0;
+    }
+
+    /* La tercera fila (la foto) se queda con todo lo que sobra. */
+    .iluminacion__izquierda {
+      grid-template-rows: auto 1fr;
+    }
+
+    .iluminacion__derecha {
+      grid-template-rows: auto auto;
+      align-content: start;
+      gap: var(--e-7);
+    }
+
+    .ilum-foto--grande {
+      /* Sin proporción fija: manda el alto de la columna. */
       aspect-ratio: auto;
+      min-height: 22rem;
+    }
+
+    .iluminacion__chicas {
+      grid-template-columns: 1fr 1fr;
     }
   }
 </style>
