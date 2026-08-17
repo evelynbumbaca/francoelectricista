@@ -36,11 +36,12 @@ export const NEGOCIO = {
   // agrega la palabra "años" al lado: acá va "más de 25", no "25 años".
   aniosOficio: 'más de 25',
 
-  // TODO: falta confirmar con Franco en cuánto responde. Va debajo de los
-  // botones de arriba de todo. Por ejemplo: 'Respondo el mismo día'.
-  // Si se deja entre comillas vacías (''), la línea no aparece.
-  // No poner acá nada que no se vaya a cumplir siempre.
-  compromisoRespuesta: '{COMPROMISO_RESPUESTA}',
+  // Compromiso de respuesta, debajo de los botones de arriba de todo.
+  // Está apagado a propósito: mientras esté vacío, la línea no aparece.
+  // Si algún día Franco confirma en cuánto responde, se escribe acá y
+  // vuelve sola. Por ejemplo: 'Respondo el mismo día'.
+  // Nunca poner algo que no se pueda cumplir siempre.
+  compromisoRespuesta: '',
 };
 
 /** Mensaje que aparece ya escrito cuando alguien abre el WhatsApp. */

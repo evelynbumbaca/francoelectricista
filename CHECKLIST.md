@@ -100,13 +100,12 @@ Se cargan todos en `src/data/sitio.js`.
       Se edita en `aniosOficio`. Ojo: ahí va **solo la cantidad**, porque
       el sitio le agrega la palabra "años" al lado. Es decir "más de 25",
       no "más de 25 años".
-- [ ] **En cuánto respondés** (`{COMPROMISO_RESPUESTA}` en el sitio).
-      Va debajo de los botones de arriba de todo. Por ejemplo:
-      "Respondo el mismo día".
-      **Preguntale a Franco y poné solo lo que pueda cumplir siempre**, no lo
-      que le gustaría. Prometer una respuesta rápida y no cumplirla es peor
-      que no prometer nada. Si prefiere no comprometerse, dejá las comillas
-      vacías (`''`) y la línea desaparece del sitio.
+- [x] **En cuánto respondés: apagado a propósito.** La línea que iba
+      debajo de los botones no se muestra. Si algún día Franco confirma en
+      cuánto responde, se escribe en `compromisoRespuesta` (en
+      `src/data/sitio.js`) y vuelve sola. Poner solo lo que pueda cumplir
+      siempre: prometer una respuesta rápida y no cumplirla es peor que no
+      prometer nada.
 - [ ] **Link del perfil de Google del negocio** (`{URL_PERFIL_GOOGLE}`).
       Ver el punto 4.
 
@@ -177,12 +176,13 @@ importa más que el sitio mismo.** Es gratis.
       fotos reales, conviene ajustarla a lo que realmente se ve.
       (En obras se edita en `obras.json`, campo `alt`.)
 - [x] **Velocidad con las fotos puestas: medida y en orden.**
-      Con señal 4G lenta el sitio abre en 1,4 segundos en pantalla grande
-      y en 0,7 en celular (el límite que nos pusimos era 2 segundos).
-      La página completa pesa 275 KB. La foto de arriba se sirve en AVIF,
-      que pesa menos de la mitad que el formato anterior.
-      **Volver a medir cuando entren las fotos reales**, que van a pesar
-      más: con `npm run build` y mirando el tamaño de `dist/_astro/`.
+      Con señal 4G lenta el sitio abre en 1,3 segundos en pantalla grande
+      y en 0,6 en celular (el límite que nos pusimos era 2 segundos).
+      La foto de arriba de todo se sirve en AVIF y con calidad bajada a 42,
+      porque va debajo de un velo oscuro y no necesita resolución completa:
+      pesa 43 KB en pantalla grande y 9 KB en celular.
+      **Volver a medir cuando entre la foto real**, que va a pesar más:
+      con `npm run build` y mirando el tamaño de `dist/_astro/`.
 
 ---
 

@@ -20,75 +20,87 @@ const mostrarCompromiso = compromiso !== '';
 const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
 ---
 
-<section class="hero halo" aria-labelledby="titulo-principal">
-  <div class="contenedor">
-    <div class="hero__texto">
-      <h1 class="titulo-1 hero__titulo" id="titulo-principal">
-        Electricista matriculado en zona norte
-      </h1>
+{/*
+  EL BLOQUE DE ARRIBA DE TODO
 
-      <p class="guia hero__bajada">
-        Obra nueva en barrios privados junto a estudios de arquitectura,
-        refacciones e iluminación de jardín. Presupuesto sin cargo.
-      </p>
+  Con foto cargada, la foto es el fondo de toda esta primera pantalla y el
+  texto va encima. Así, apenas se entra, se ve un trabajo terminado en vez
+  de un bloque de texto con una foto más abajo.
 
-      <div class="hero__acciones">
-        <BotonLuz
-          href={whatsappHero}
-          variante="primario"
-          icono="whatsapp"
-          contacto="whatsapp"
-          origen="hero"
-        >
-          Pedir presupuesto por WhatsApp
-        </BotonLuz>
-        <BotonLuz href="#obras" variante="secundario" icono="flecha" luz={false}>
-          Ver obras
-        </BotonLuz>
+  Sin foto, el bloque vuelve al orden normal (texto, botones y el cartel
+  que dice qué foto falta), porque un fondo vacío no tendría sentido.
+*/}
+<section
+  class:list={['hero', 'halo', fotoHero && 'hero--con-fondo']}
+  aria-labelledby="titulo-principal"
+>
+  {
+    fotoHero && (
+      <div class="hero__fondo">
+        {/* Picture y no Image: esta es la foto más pesada del sitio y la
+            que decide la velocidad de carga. Con Picture el navegador
+            puede elegir AVIF, que pesa bastante menos que WebP. */}
+        <Picture
+          class="hero__imagen"
+          src={fotoHero}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          alt="Casa de noche con la iluminación de jardín encendida y luz cálida saliendo del interior."
+          widths={[480, 720, 1024, 1280]}
+          sizes="100vw"
+          quality={42}
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
+        />
       </div>
+    )
+  }
 
-      {
-        /* Compromiso de respuesta. Si en sitio.js queda vacío, esta línea
-           no se dibuja: mejor no decir nada que prometer algo que no se
-           cumple. Mientras no esté definido, se ve el cartel de pendiente. */
-        mostrarCompromiso && (
-          <p class="hero__compromiso">
-            {compromisoCargado ? (
-              NEGOCIO.compromisoRespuesta
-            ) : (
-              <span class="pendiente">{'{COMPROMISO_RESPUESTA}'}</span>
-            )}
-          </p>
-        )
-      }
+  <div class="contenedor hero__contenido">
+    <h1 class="titulo-1 hero__titulo" id="titulo-principal">
+      Electricista matriculado en zona norte
+    </h1>
+
+    <p class="guia hero__bajada">
+      Obra nueva en barrios privados junto a estudios de arquitectura,
+      refacciones e iluminación de jardín. Presupuesto sin cargo.
+    </p>
+
+    <div class="hero__acciones">
+      <BotonLuz
+        href={whatsappHero}
+        variante="primario"
+        icono="whatsapp"
+        contacto="whatsapp"
+        origen="hero"
+      >
+        Pedir presupuesto por WhatsApp
+      </BotonLuz>
+      <BotonLuz href="#obras" variante="secundario" icono="flecha" luz={false}>
+        Ver obras
+      </BotonLuz>
     </div>
+
+    {
+      /* Compromiso de respuesta. Si en sitio.js queda vacío, esta línea no
+         se dibuja: mejor no decir nada que prometer algo que no se cumple. */
+      mostrarCompromiso && (
+        <p class="hero__compromiso">
+          {compromisoCargado ? (
+            NEGOCIO.compromisoRespuesta
+          ) : (
+            <span class="pendiente">{'{COMPROMISO_RESPUESTA}'}</span>
+          )}
+        </p>
+      )
+    }
   </div>
 
-  <!-- FOTO PRINCIPAL —————————————————————————————————————————————
-       El espacio ya está reservado con la proporción exacta, así que
-       cuando se cargue la foto de verdad la página no se va a mover.
-       Instrucciones para reemplazarlo: ver README.md -->
-  <div class="contenedor">
-    <!-- Se usa Picture y no Image porque esta es la foto más pesada del
-         sitio y la que decide la velocidad de carga en pantallas grandes.
-         Con Picture el navegador puede elegir AVIF, que pesa bastante menos
-         que WebP, y cae a WebP si no lo soporta. -->
-    <figure class="hero__figura">
-      {
-        fotoHero ? (
-          <Picture
-            class="hero__imagen"
-            src={fotoHero}
-            formats={['avif', 'webp']}
-            fallbackFormat="webp"
-            alt="Casa de noche con la iluminación de jardín encendida y luz cálida saliendo del interior."
-            widths={[640, 960, 1200, 1536]}
-            sizes="(min-width: 1240px) 1144px, 100vw"
-            loading="eager"
-            fetchpriority="high"
-            decoding="sync"
-          />
-        ) : (
+  {
+    !fotoHero && (
+      <div class="contenedor">
+        <figure class="hero__figura">
           <div class="hueco-foto hero__hueco">
             <p class="hueco-foto__etiqueta">{'{FOTO_HERO}'}</p>
             <p class="hueco-foto__nota">
@@ -96,10 +108,10 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
               un retrato: el retrato va más abajo, en «Sobre Franco».
             </p>
           </div>
-        )
-      }
-    </figure>
-  </div>
+        </figure>
+      </div>
+    )
+  }
 
   <div class="contenedor">
     <ul class="hero__datos">
@@ -138,13 +150,111 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
     padding-block: clamp(3rem, 2rem + 6vw, 7rem) var(--e-9);
   }
 
+  /* --- Con foto: ocupa la primera pantalla y la foto va detrás ---------- */
+
+  .hero--con-fondo {
+    /* isolation crea una capa propia, para que la foto pueda ir en z-index
+       negativo sin escaparse por detrás del fondo de la página. */
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* svh es el alto real de la pantalla del celular, descontando la barra
+       del navegador. vh queda de respaldo para navegadores viejos. */
+    min-height: 86vh;
+    min-height: 86svh;
+    padding-block: var(--e-9) var(--e-7);
+  }
+
+  .hero__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  /* Picture envuelve la imagen en un <picture>: ese elemento tiene que
+     ocupar todo, si no la imagen se queda con su alto natural y desborda
+     en lugar de recortarse. */
+  .hero__fondo :global(picture) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* El recorte se corre hacia abajo: arriba sobra cielo, abajo está el
+       césped con los artefactos encendidos. */
+    object-position: 50% 68%;
+  }
+
+  /* En celular la pantalla es mucho más alta que ancha, así que de una foto
+     apaisada entra una franja angosta. Se corre a la derecha para que esa
+     franja agarre la casa iluminada y no solamente el árbol. */
+  @media (max-width: 46rem) {
+    .hero__imagen {
+      object-position: 62% 60%;
+    }
+  }
+
+  /* El velo que hace legible el texto sobre la foto. Es el mismo color de
+     fondo del sitio, así que la foto no se ensucia: se apaga. */
+  .hero__fondo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      var(--fondo) 6%,
+      rgb(20 17 16 / 0.97) 40%,
+      rgb(20 17 16 / 0.82) 68%,
+      rgb(20 17 16 / 0.45) 100%
+    );
+  }
+
+  /* Sobre la foto, la bajada va en el texto pleno y no en el tenue.
+     Medido: con el tono tenue quedaba en 2,9:1 sobre las ventanas
+     iluminadas de la foto, por debajo del mínimo legible. */
+  .hero--con-fondo .hero__bajada {
+    color: var(--texto);
+  }
+
+  @media (min-width: 60rem) {
+    /* En pantalla ancha el texto ocupa la mitad izquierda, así que el velo
+       cae de izquierda a derecha y deja respirar la foto del lado derecho. */
+    .hero__fondo::after {
+      background: linear-gradient(
+          to right,
+          var(--fondo) 0%,
+          rgb(20 17 16 / 0.97) 34%,
+          rgb(20 17 16 / 0.74) 62%,
+          rgb(20 17 16 / 0.4) 100%
+        ),
+        linear-gradient(
+          to top,
+          rgb(20 17 16 / 0.92) 0%,
+          rgb(20 17 16 / 0.3) 48%,
+          transparent 76%
+        );
+    }
+
+    /* El texto se queda en la mitad izquierda, que es donde el velo tapa
+       más. La bajada se angosta para no meterse en la parte donde la foto
+       respira. El contenedor no se toca: sigue centrado como el resto del
+       sitio, así el texto queda alineado con las demás secciones. */
+    .hero--con-fondo .hero__bajada {
+      max-width: 46ch;
+    }
+  }
+
+  /* --- Texto ------------------------------------------------------------ */
+
   .hero__titulo {
     max-width: 17ch;
     margin-block-end: var(--e-6);
-  }
-
-  .destacado {
-    color: var(--ambar);
   }
 
   .hero__bajada {
@@ -164,41 +274,23 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
     color: var(--texto-tenue);
   }
 
-  .hero__texto {
+  .hero__contenido {
     margin-block-end: var(--e-8);
   }
 
-  /* --- La foto principal ------------------------------------------------ */
+  /* --- Sin foto: el hueco que dice qué falta ---------------------------- */
 
   .hero__figura {
     position: relative;
-    /* 16/9 y no 16/8: con la caja más alta entra el piso, que es donde
-       están los artefactos y el trabajo que se quiere mostrar. */
     aspect-ratio: 16 / 9;
     margin-block-end: var(--e-7);
     overflow: hidden;
     border-radius: var(--radio-2);
   }
 
-  /* IMPORTANTE: Picture envuelve la imagen en un <picture>, y ese elemento
-     tiene que ocupar toda la figura. Si no, la imagen no encuentra contra
-     qué calcular su alto, se queda con su alto natural y termina
-     desbordando: en vez de recortarse por el centro, se corta todo abajo
-     y desaparece el piso. */
-  .hero__figura :global(picture) {
-    display: block;
+  .hero__hueco {
     width: 100%;
     height: 100%;
-  }
-
-  .hero__hueco,
-  .hero__imagen {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* El recorte se corre hacia abajo: arriba sobra cielo, abajo está el
-       césped con los artefactos encendidos. */
-    object-position: 50% 70%;
   }
 
   @media (max-width: 46rem) {
@@ -218,6 +310,11 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
     gap: var(--e-5);
     padding-block-start: var(--e-6);
     border-block-start: 1px solid var(--borde);
+  }
+
+  /* Sobre la foto, el borde de hilo necesita algo más de presencia. */
+  .hero--con-fondo .hero__datos {
+    border-block-start-color: rgb(240 234 227 / 0.22);
   }
 
   @media (min-width: 46rem) {

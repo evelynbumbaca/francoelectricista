@@ -88,10 +88,11 @@ ejemplo, para poner el correo:
 Fijate que quede la coma al final y las comillas a los dos lados. Eso es
 importante: si falta una comilla, el sitio no arranca.
 
-> **La línea `compromisoRespuesta`** es la frase chiquita que aparece debajo
-> de los botones de arriba de todo, del tipo "Respondo el mismo día".
-> Poné ahí solo algo que se pueda cumplir siempre. Si dejás las comillas
-> vacías (`''`), la línea no aparece en el sitio.
+> **La línea `compromisoRespuesta`** es una frase chiquita que puede
+> aparecer debajo de los botones de arriba de todo, del tipo "Respondo el
+> mismo día". **Hoy está vacía a propósito, así que no se muestra.** Si se
+> escribe algo entre las comillas, aparece sola. Poner solo algo que se
+> pueda cumplir siempre.
 
 > **Cuidado con el teléfono.** Hay dos líneas: `telefono` es el que se ve
 > escrito, y `telefonoLink` es el mismo número pero **sin espacios ni
@@ -131,6 +132,11 @@ Consejos para las fotos:
   caras, cuatro con una de relleno se ven baratas.
 - La de arriba de todo (`hero.jpg`) **no es un retrato**: va una obra
   terminada o un jardín iluminado. El retrato va abajo, en "Sobre Franco".
+  Esta foto se usa como **fondo de la primera pantalla**, con el texto
+  encima, así que conviene una donde el lado izquierdo sea tranquilo (sin
+  detalles importantes ahí), porque es la zona que queda tapada por el
+  título. Si un día no está el archivo, el sitio vuelve solo al diseño con
+  la foto en un recuadro.
 - Sirven `.jpg`, `.png`, `.webp` y `.avif`. **La extensión no importa**:
   si el archivo se llama `hero.png` o `hero.webp`, el sitio lo encuentra
   igual. Lo que tiene que coincidir es el nombre, no el final.

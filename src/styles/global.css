@@ -398,26 +398,41 @@ ol {
    Solo en pantallas con mouse: en celular no hay cursor al que responder
    y no vale gastar rendimiento donde está la mayoría de las visitas. */
 
+/* La grilla base se dibuja siempre, también en celular: es una imagen de
+   fondo fija, no cuesta nada y sin ella el fondo queda un color plano.
+   Lo que sí está limitado a pantallas con mouse es el brillo que sigue al
+   cursor, que es lo único que gasta rendimiento. */
 .reticula {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-reticula);
+  pointer-events: none;
+  background-image: linear-gradient(var(--texto) 1px, transparent 1px),
+    linear-gradient(90deg, var(--texto) 1px, transparent 1px);
+  background-size: 68px 68px;
+  opacity: 0.028;
+}
+
+/* En celular la grilla no tiene el brillo que la acompaña, y la pantalla
+   suele mirarse con más luz alrededor, así que se marca un poco más y se
+   achica el paso para que la textura se lea en pantalla chica. */
+@media (pointer: coarse) {
+  .reticula {
+    background-size: 46px 46px;
+    opacity: 0.055;
+  }
+}
+
+.reticula__luz {
   display: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .reticula {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: var(--z-reticula);
-    pointer-events: none;
-    background-image: linear-gradient(var(--texto) 1px, transparent 1px),
-      linear-gradient(90deg, var(--texto) 1px, transparent 1px);
-    background-size: 68px 68px;
-    opacity: 0.028;
-  }
-
   /* La capa que se enciende: la misma grilla en ámbar, recortada a un
      círculo que sigue al cursor. */
   .reticula__luz {
+    display: block;
     position: absolute;
     inset: 0;
     background-image: linear-gradient(var(--ambar) 1px, transparent 1px),
@@ -467,7 +482,9 @@ ol {
     transform: none;
   }
 
-  .reticula {
+  /* La grilla de fondo se queda: es un dibujo quieto, no movimiento.
+     Lo que se apaga es el brillo que sigue al cursor. */
+  .reticula__luz {
     display: none;
   }
 
