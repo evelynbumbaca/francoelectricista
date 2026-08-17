@@ -1,14 +1,64 @@
 ---
-import { Picture } from 'astro:assets';
+import { getImage } from 'astro:assets';
+import { existsSync } from 'node:fs';
 import BotonLuz from './BotonLuz.astro';
 import { NEGOCIO, linkWhatsapp } from '../data/sitio.js';
 import { buscarFoto } from '../data/fotos.js';
 
 const whatsappHero = linkWhatsapp('un presupuesto');
 
-// Si el archivo src/images/hero.jpg existe, se muestra la foto.
-// Si no, se muestra el cartel de foto pendiente.
+/* --- La imagen de arriba de todo -------------------------------------
+   Hay dos fotos distintas a propósito:
+
+   · hero.jpg es el PRIMER cuadro del video, con la casa todavía apagada
+     al atardecer. Va en pantallas grandes, donde después arranca el
+     video: al ser el mismo cuadro, el empalme no se nota.
+   · hero-celular.jpg es el ÚLTIMO cuadro, con todo encendido. Va en
+     celular, donde el video no se carga nunca, así que conviene mostrar
+     directamente la casa iluminada, que es el resultado del trabajo.
+
+   Nadie ve las dos: cada pantalla baja solo la suya. */
 const fotoHero = buscarFoto('hero.jpg');
+const fotoHeroCelular = buscarFoto('hero-celular.jpg') || fotoHero;
+
+const ALT_HERO =
+  'Casa al atardecer con la iluminación de jardín y del interior encendiéndose.';
+
+/* El video solo existe si los dos archivos están puestos. Si alguien los
+   borra, el sitio sigue andando con la foto y no queda un hueco negro. */
+const hayVideo =
+  Boolean(fotoHero) &&
+  existsSync('public/video/hero.webm') &&
+  existsSync('public/video/hero.mp4');
+
+// Pósters art-dirigidos: cada pantalla baja únicamente el suyo.
+const posterCelular = fotoHeroCelular
+  ? await getImage({
+      src: fotoHeroCelular,
+      widths: [420, 640, 900],
+      format: 'avif',
+      quality: 48,
+    })
+  : null;
+
+const posterEscritorio = fotoHero
+  ? await getImage({
+      src: fotoHero,
+      widths: [960, 1280, 1600],
+      format: 'avif',
+      quality: 44,
+    })
+  : null;
+
+// Respaldo en un formato que entiende cualquier navegador.
+const posterRespaldo = fotoHeroCelular
+  ? await getImage({
+      src: fotoHeroCelular,
+      width: 1024,
+      format: 'webp',
+      quality: 55,
+    })
+  : null;
 
 // Mientras los años no estén cargados, el placeholder se ve en la pantalla.
 const aniosCargados = !String(NEGOCIO.aniosOficio).includes('{');
@@ -37,22 +87,46 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
   {
     fotoHero && (
       <div class="hero__fondo">
-        {/* Picture y no Image: esta es la foto más pesada del sitio y la
-            que decide la velocidad de carga. Con Picture el navegador
-            puede elegir AVIF, que pesa bastante menos que WebP. */}
-        <Picture
-          class="hero__imagen"
-          src={fotoHero}
-          formats={['avif', 'webp']}
-          fallbackFormat="webp"
-          alt="Casa de noche con la iluminación de jardín encendida y luz cálida saliendo del interior."
-          widths={[480, 720, 1024, 1280]}
-          sizes="100vw"
-          quality={42}
-          loading="eager"
-          fetchpriority="high"
-          decoding="sync"
-        />
+        <picture>
+          <source
+            media="(min-width: 60rem)"
+            type="image/avif"
+            srcset={posterEscritorio.srcSet.attribute}
+            sizes="100vw"
+          />
+          <source
+            type="image/avif"
+            srcset={posterCelular.srcSet.attribute}
+            sizes="100vw"
+          />
+          <img
+            class="hero__imagen"
+            src={posterRespaldo.src}
+            alt={ALT_HERO}
+            width={posterRespaldo.attributes.width}
+            height={posterRespaldo.attributes.height}
+            fetchpriority="high"
+            decoding="sync"
+          />
+        </picture>
+
+        {hayVideo && (
+          /* El video se monta encima del póster y aparece con un fundido.
+             Arranca sin fuente y sin precarga: recién se le pone el archivo
+             cuando la página terminó de cargar, para que nunca le compita
+             a la imagen principal. Ver el script del final. */
+          <video
+            class="hero__video"
+            data-hero-video
+            data-webm="/video/hero.webm"
+            data-mp4="/video/hero.mp4"
+            muted
+            playsinline
+            preload="none"
+            aria-hidden="true"
+            tabindex="-1"
+          />
+        )}
       </div>
     )
   }
@@ -78,7 +152,7 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
         Pedir presupuesto por WhatsApp
       </BotonLuz>
       <BotonLuz href="#servicios" variante="secundario" icono="flecha" luz={false}>
-        Qué hago
+        Ver servicios
       </BotonLuz>
     </div>
 
@@ -173,22 +247,43 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
     z-index: -1;
   }
 
-  /* Picture envuelve la imagen en un <picture>: ese elemento tiene que
-     ocupar todo, si no la imagen se queda con su alto natural y desborda
-     en lugar de recortarse. */
-  .hero__fondo :global(picture) {
+  /* El <picture> tiene que ocupar todo: si no, la imagen se queda con su
+     alto natural y desborda en lugar de recortarse. */
+  .hero__fondo picture {
     display: block;
     width: 100%;
     height: 100%;
   }
 
-  .hero__imagen {
+  .hero__imagen,
+  .hero__video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     /* El recorte se corre hacia abajo: arriba sobra cielo, abajo está el
        césped con los artefactos encendidos. */
     object-position: 50% 68%;
+  }
+
+  /* El video se monta encima del póster y aparece con un fundido corto.
+     Arranca invisible: recién se muestra cuando de verdad está andando,
+     así nunca se ve un rectángulo negro mientras carga. */
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 700ms var(--ease-suave);
+  }
+
+  .hero__video--visible {
+    opacity: 1;
+  }
+
+  /* En celular no se carga el video, así que no hace falta ni dibujarlo. */
+  @media (max-width: 60rem) {
+    .hero__video {
+      display: none;
+    }
   }
 
   /* En celular la pantalla es mucho más alta que ancha, así que de una foto
@@ -206,12 +301,15 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
     content: '';
     position: absolute;
     inset: 0;
+    /* En celular el texto ocupa el ancho completo y se apoya abajo, así que
+       el velo tiene que subir desde abajo. Un degradado lateral no lo
+       protegería. */
     background: linear-gradient(
       to top,
-      var(--fondo) 6%,
-      rgb(20 17 16 / 0.97) 40%,
-      rgb(20 17 16 / 0.82) 68%,
-      rgb(20 17 16 / 0.45) 100%
+      var(--fondo) 5%,
+      rgb(20 17 16 / 0.94) 36%,
+      rgb(20 17 16 / 0.62) 66%,
+      rgb(20 17 16 / 0.22) 100%
     );
   }
 
@@ -229,15 +327,18 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
       background: linear-gradient(
           to right,
           var(--fondo) 0%,
-          rgb(20 17 16 / 0.97) 34%,
-          rgb(20 17 16 / 0.74) 62%,
-          rgb(20 17 16 / 0.4) 100%
+          rgb(20 17 16 / 0.95) 30%,
+          rgb(20 17 16 / 0.7) 56%,
+          rgb(20 17 16 / 0.16) 100%
         ),
+        /* Una segunda capa, baja y corta, solo para que la fila de datos de
+           abajo se lea también sobre la parte clara de la imagen. Arriba no
+           llega, así que el cielo y la casa quedan a la vista. */
         linear-gradient(
           to top,
-          rgb(20 17 16 / 0.92) 0%,
-          rgb(20 17 16 / 0.3) 48%,
-          transparent 76%
+          rgb(20 17 16 / 0.86) 0%,
+          rgb(20 17 16 / 0.28) 22%,
+          transparent 44%
         );
     }
 
@@ -245,8 +346,11 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
        más. La bajada se angosta para no meterse en la parte donde la foto
        respira. El contenedor no se toca: sigue centrado como el resto del
        sitio, así el texto queda alineado con las demás secciones. */
+    /* 40ch y no más: medido, con la bajada más ancha el texto se metía en
+       la zona donde el video enciende el alero y el contraste caía a
+       3,7:1. Angostarla la mantiene sobre la parte protegida del velo. */
     .hero--con-fondo .hero__bajada {
-      max-width: 46ch;
+      max-width: 40ch;
     }
   }
 
@@ -340,3 +444,74 @@ const compromisoCargado = mostrarCompromiso && !compromiso.includes('{');
     color: var(--texto-tenue);
   }
 </style>
+
+<script>
+  // ====================================================================
+  // EL VIDEO DE ARRIBA DE TODO
+  //
+  // Reglas, en orden de importancia:
+  //  1. El video NUNCA le compite a la imagen principal. Por eso arranca
+  //     sin fuente y sin precarga, y recién se le pone el archivo cuando
+  //     la página ya terminó de cargar del todo.
+  //  2. En celular no se carga nunca. Es donde está la mayoría del
+  //     tráfico y donde los datos se pagan.
+  //  3. Si la persona pidió menos animaciones, tampoco. Un video de fondo
+  //     es exactamente el tipo de movimiento que esa opción quiere evitar.
+  //  4. Si el navegador avisa que la conexión es mala o que hay ahorro de
+  //     datos activado, tampoco.
+  //  5. Se reproduce una sola vez y queda quieto en el último cuadro, con
+  //     la casa iluminada. No se repite en loop.
+  // ====================================================================
+
+  const video = document.querySelector('[data-hero-video]');
+
+  if (video) {
+    const pantallaGrande = window.matchMedia('(min-width: 60rem)');
+    const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const conexion =
+      navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const conexionPobre = Boolean(
+      conexion &&
+        (conexion.saveData === true ||
+          ['slow-2g', '2g', '3g'].includes(conexion.effectiveType))
+    );
+
+    const corresponde =
+      pantallaGrande.matches && !menosMovimiento.matches && !conexionPobre;
+
+    if (corresponde) {
+      const arrancar = () => {
+        for (const [archivo, tipo] of [
+          [video.dataset.webm, 'video/webm'],
+          [video.dataset.mp4, 'video/mp4'],
+        ]) {
+          const fuente = document.createElement('source');
+          fuente.src = archivo;
+          fuente.type = tipo;
+          video.appendChild(fuente);
+        }
+
+        // Recién cuando está andando de verdad se hace visible, para que
+        // nunca aparezca un rectángulo negro sobre el póster.
+        video.addEventListener(
+          'playing',
+          () => video.classList.add('hero__video--visible'),
+          { once: true }
+        );
+
+        video.load();
+        // Si el navegador bloquea la reproducción automática, no pasa nada:
+        // queda el póster, que ya es la imagen que corresponde.
+        const intento = video.play();
+        if (intento && typeof intento.catch === 'function') intento.catch(() => {});
+      };
+
+      if (document.readyState === 'complete') {
+        arrancar();
+      } else {
+        window.addEventListener('load', arrancar, { once: true });
+      }
+    }
+  }
+</script>

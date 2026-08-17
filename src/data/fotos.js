@@ -9,12 +9,13 @@
  * No hay que tocar nada de código: alcanza con copiar el archivo.
  *
  * Nombres que el sitio busca:
- *   hero.jpg              → fondo de la primera pantalla
+ *   hero.jpg              → fondo de la primera pantalla (computadora)
+ *   hero-celular.jpg      → fondo de la primera pantalla (celular)
  *   iluminacion-1.jpg     → galería de iluminación de jardín (son tres)
  *   iluminacion-2.jpg
  *   iluminacion-3.jpg
- *   servicio-obra.jpg     → "Qué hago", bloque de obra y proyecto
- *   servicio-instalaciones.jpg → "Qué hago", bloque de instalaciones
+ *   servicio-obra.jpg     → "Servicios", bloque de obra y proyecto
+ *   servicio-instalaciones.jpg → "Servicios", bloque de instalaciones
  *   matriculado.jpg       → sección "Por qué un matriculado"
  *   retrato.jpg           → la foto de Franco, en "Cómo trabajo"
  *

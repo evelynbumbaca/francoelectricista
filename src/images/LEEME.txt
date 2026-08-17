@@ -2,28 +2,32 @@ Acá van todas las fotos del sitio.
 
 Copiá los archivos dentro de esta misma carpeta, con estos nombres:
 
-  hero.jpg           La foto grande de arriba de todo.
-                     Obra terminada o jardín iluminado de noche. Apaisada.
-                     NO va un retrato acá.
+  hero.jpg           Fondo de la primera pantalla EN COMPUTADORA.
+                     Tiene que ser el primer cuadro del video (la casa
+                     todavía apagada), para que el empalme no se note.
+
+  hero-celular.jpg   Fondo de la primera pantalla EN CELULAR, donde el
+                     video no se carga. Va el último cuadro del video,
+                     con todo encendido.
 
   iluminacion-1.jpg  La galería de iluminación de jardín. Todas de noche.
   iluminacion-2.jpg  La 1 es la más grande: que sea la mejor.
   iluminacion-3.jpg  Son tres y no más: tres fotos buenas se ven caras,
                      cuatro con una de relleno se ven baratas.
 
-  servicio-obra.jpg  Bloque "Obra y proyecto", dentro de "Qué hago".
+  servicio-obra.jpg  Bloque "Obra y proyecto", dentro de "Servicios".
                      Interior de una obra nueva.
 
   servicio-instalaciones.jpg
-                     Bloque "Instalaciones y reformas", dentro de "Qué
-                     hago". Un trabajo en una casa habitada.
+                     Bloque "Instalaciones y reformas", dentro de
+                     "Servicios". Un trabajo en una casa habitada.
 
   matriculado.jpg    Sección "Por qué un matriculado". Planos, un
                      certificado o el instrumento de medición.
 
   retrato.jpg        La foto de Franco, para la sección "Cómo trabajo".
 
-Las dos fotos de "Qué hago" se pueden cambiar de nombre: si lo hacés,
+Las dos fotos de "Servicios" se pueden cambiar de nombre: si lo hacés,
 escribí el nombre nuevo en el archivo src/data/servicios.json, en la línea
 "foto". Está explicado en el README.md.
 

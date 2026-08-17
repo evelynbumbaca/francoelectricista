@@ -114,12 +114,13 @@ archivo ahí adentro, con el nombre exacto que corresponde:
 
 | Nombre del archivo           | Dónde aparece                                   |
 | ---------------------------- | ----------------------------------------------- |
-| `hero.jpg`                   | Fondo de la primera pantalla                    |
+| `hero.jpg`                   | Fondo de la primera pantalla, en computadora    |
+| `hero-celular.jpg`           | Fondo de la primera pantalla, en celular        |
 | `iluminacion-1.jpg`          | Galería de iluminación de jardín (la más grande)|
 | `iluminacion-2.jpg`          | Galería de iluminación                          |
 | `iluminacion-3.jpg`          | Galería de iluminación                          |
-| `servicio-obra.jpg`          | «Qué hago» → Obra y proyecto                    |
-| `servicio-instalaciones.jpg` | «Qué hago» → Instalaciones y reformas           |
+| `servicio-obra.jpg`          | «Servicios» → Obra y proyecto                    |
+| `servicio-instalaciones.jpg` | «Servicios» → Instalaciones y reformas           |
 | `matriculado.jpg`            | «Por qué un matriculado»                        |
 | `retrato.jpg`                | La foto de Franco, en «Cómo trabajo»            |
 
@@ -133,13 +134,19 @@ Consejos para las fotos:
 - Las de **iluminación tienen que ser de noche**. Es cuando se ve el
   trabajo. **Son tres, y son tres a propósito**: tres fotos buenas se ven
   caras, cuatro con una de relleno se ven baratas.
-- La de arriba de todo (`hero.jpg`) **no es un retrato**: va una obra
-  terminada o un jardín iluminado. El retrato va abajo, en "Sobre Franco".
-  Esta foto se usa como **fondo de la primera pantalla**, con el texto
-  encima, así que conviene una donde el lado izquierdo sea tranquilo (sin
-  detalles importantes ahí), porque es la zona que queda tapada por el
-  título. Si un día no está el archivo, el sitio vuelve solo al diseño con
-  la foto en un recuadro.
+- Las de arriba de todo (`hero.jpg` y `hero-celular.jpg`) **no son un
+  retrato**: va una obra terminada o un jardín iluminado. El retrato va
+  abajo, en "Cómo trabajo".
+- **Son dos y son distintas a propósito.** `hero.jpg` es el primer cuadro
+  del video, con la casa todavía apagada, y se usa en computadora, donde
+  después arranca el video: al ser el mismo cuadro, el empalme no se nota.
+  `hero-celular.jpg` es el último cuadro, con todo encendido, y se usa en
+  celular, donde el video no se carga nunca. Nadie ve las dos: cada
+  pantalla baja solo la suya.
+- Las dos se usan como **fondo**, con el texto encima, así que conviene que
+  el lado izquierdo sea tranquilo (sin detalles importantes ahí), porque es
+  la zona que queda tapada por el título. Si un día no están los archivos,
+  el sitio vuelve solo al diseño con la foto en un recuadro.
 - Sirven `.jpg`, `.png`, `.webp` y `.avif`. **La extensión no importa**:
   si el archivo se llama `hero.png` o `hero.webp`, el sitio lo encuentra
   igual. Lo que tiene que coincidir es el nombre, no el final.
@@ -148,7 +155,49 @@ Consejos para las fotos:
 
 ---
 
-## Cambiar las fotos de «Qué hago»
+## El video de arriba de todo
+
+En la primera pantalla, **en computadora**, se reproduce un video corto:
+la casa al atardecer y las luces encendiéndose. Dura 10 segundos, se
+reproduce una sola vez y queda quieto con todo encendido. No se repite.
+
+Reglas que cumple, y conviene no romper:
+
+- **En celular no se carga nunca.** Ahí está la mayoría de las visitas y
+  los datos se pagan. En celular se ve la foto `hero-celular.jpg`.
+- **Nunca arranca antes que la página.** Recién se pide cuando el sitio
+  terminó de cargar, para no hacerlo más lento.
+- **No se carga** si la persona pidió menos animaciones en su sistema, ni
+  si el navegador avisa que la conexión es mala o hay ahorro de datos.
+- Va sin sonido y sin controles.
+
+Los archivos están en `public/video/`: `hero.webm` y `hero.mp4`. Son el
+mismo video en dos formatos, porque no todos los navegadores entienden el
+mismo. **Si falta cualquiera de los dos, el sitio no muestra video y deja
+la foto**, que es lo correcto.
+
+> **Para cambiar el video hace falta alguien técnico.** Del archivo
+> original hay que sacar dos versiones y dos fotos, con
+> [ffmpeg](https://ffmpeg.org). Los comandos, para 10 segundos y 1920 de
+> ancho, son estos:
+>
+> ```
+> ffmpeg -i original.mp4 -an -vf scale=1920:-2 -c:v libvpx-vp9 \
+>   -b:v 1100k -row-mt 1 -pass 1 -f null /dev/null
+> ffmpeg -i original.mp4 -an -vf scale=1920:-2 -c:v libvpx-vp9 \
+>   -b:v 1100k -row-mt 1 -pass 2 public/video/hero.webm
+> ffmpeg -i original.mp4 -an -vf scale=1920:-2 -c:v libx264 -crf 31 \
+>   -preset slow -pix_fmt yuv420p -movflags +faststart public/video/hero.mp4
+> ffmpeg -i original.mp4 -ss 0 -frames:v 1 primer-cuadro.png
+> ffmpeg -i original.mp4 -sseof -0.1 -frames:v 1 ultimo-cuadro.png
+> ```
+>
+> El primer cuadro se guarda como `src/images/hero.jpg` y el último como
+> `src/images/hero-celular.jpg`. **El video no puede pasar de 2 MB.**
+
+---
+
+## Cambiar las fotos de «Servicios»
 
 Cada uno de los dos bloques de esa sección tiene su foto. Se eligen en
 **`src/data/servicios.json`**, en la línea `foto`:
@@ -241,10 +290,10 @@ así que **si no estás cómodo, pedile a alguien que lo haga**. El texto está
 siempre entre `>` y `<`, así:
 
 ```html
-<h2 class="titulo-2">Qué hago</h2>
+<h2 class="titulo-2">Servicios</h2>
 ```
 
-Se cambia solamente `Qué hago`. Todo lo demás se deja igual.
+Se cambia solamente `Servicios`. Todo lo demás se deja igual.
 
 ---
 

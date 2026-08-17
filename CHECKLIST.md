@@ -27,9 +27,15 @@ les guste: es que dejan de creer el resto del sitio, incluida la matrícula.
 Hay que reemplazarlas por fotos reales de Franco, con estos nombres, en
 `src/images/` (el archivo nuevo pisa al viejo, no hay que tocar código):
 
-- [ ] **`hero.webp`** — la foto grande de arriba de todo.
-      Obra terminada o jardín iluminado de noche. **Apaisada. No un
-      retrato.** Es la primera imagen que alguien ve del trabajo de Franco.
+- [ ] **El video de arriba de todo** (`public/video/hero.webm` y
+      `hero.mp4`) más sus dos fotos (`hero.webp` y `hero-celular.webp`).
+      Hoy hay un video generado de una casa encendiéndose. Es lo que mejor
+      funciona del sitio y también lo más difícil de reemplazar: haría
+      falta filmar una obra real de Franco al atardecer, con el celular
+      quieto sobre algo firme, mientras se van prendiendo las luces.
+      **Si no se consigue, es preferible dejar solo una foto real que un
+      video que no sea de él.** Sacando los dos archivos de
+      `public/video/`, el sitio muestra la foto y sigue andando.
 - [ ] **`iluminacion-1.webp`** — jardín completo de noche, árboles
       iluminados desde abajo. **Que sea la mejor de todas: es la que se
       muestra más grande.**
@@ -38,7 +44,7 @@ Hay que reemplazarlas por fotos reales de Franco, con estos nombres, en
 - [ ] **`iluminacion-3.webp`** — camino, escalera, borde de pileta o galería
       con luz a ras del piso.
 - [ ] **`servicio-obra.webp`** — interior de una obra nueva, para el
-      bloque «Obra y proyecto» de «Qué hago».
+      bloque «Obra y proyecto» de «Servicios».
 - [ ] **`servicio-instalaciones.webp`** — un trabajo en una casa habitada
       (artefacto colocado, tira de luz, tablero nuevo), para el bloque
       «Instalaciones y reformas».
@@ -155,7 +161,7 @@ importa más que el sitio mismo.** Es gratis.
 - [ ] **Revisar los textos alternativos de las fotos** una vez cargadas.
       Cada foto tiene una descripción escrita de antemano; cuando estén las
       fotos reales, conviene ajustarla a lo que realmente se ve.
-      (Las dos de «Qué hago» se editan en `servicios.json`, campo `alt`.)
+      (Las dos de «Servicios» se editan en `servicios.json`, campo `alt`.)
 - [x] **Velocidad con las fotos puestas: medida y en orden.**
       Con señal 4G lenta el sitio abre en 1,3 segundos en pantalla grande
       y en 0,6 en celular (el límite que nos pusimos era 2 segundos).
